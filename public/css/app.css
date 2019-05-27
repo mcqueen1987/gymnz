@@ -10667,7 +10667,9 @@ a.text-dark:focus {
 }
 
 .nzg-container .nzg-side-nav {
-  width: 100px;
+  width: 150px;
+  background: #444;
+  color: #ececec;
 }
 
 .nzg-container .nzg-content {

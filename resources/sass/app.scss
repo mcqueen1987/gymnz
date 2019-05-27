@@ -9,7 +9,9 @@
 .nzg-container {
   display: flex;
   .nzg-side-nav {
-    width: 100px;
+    width: 150px;
+    background: #444;
+    color: #ececec;
   }
   .nzg-content {
     flex: 1;
