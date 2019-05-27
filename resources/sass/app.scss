@@ -1,0 +1,17 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+.nzg-container {
+  display: flex;
+  .nzg-side-nav {
+    width: 100px;
+  }
+  .nzg-content {
+    flex: 1;
+  }
+}
