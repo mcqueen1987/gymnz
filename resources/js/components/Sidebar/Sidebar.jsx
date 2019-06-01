@@ -15,6 +15,7 @@ import AdminNavbarLinks from "-components/Navbars/AdminNavbarLinks.jsx";
 import RTLNavbarLinks from "-components/Navbars/RTLNavbarLinks.jsx";
 
 import sidebarStyle from "-assets/jss/material-dashboard-react/components/sidebarStyle.jsx";
+import SimpleMenu from "-components/SimpleMenu/SimpleMenu";
 
 const Sidebar = ({ ...props }) => {
   // verifies if routeName is the one active (in browser input)
@@ -78,21 +79,19 @@ const Sidebar = ({ ...props }) => {
       })}
     </List>
   );
-  var brand = (
-    <div className={classes.logo}>
-      <a
-        href="https://www.creative-tim.com"
-        className={classNames(classes.logoLink, {
-          [classes.logoLinkRTL]: props.rtlActive
-        })}
-      >
-        <div className={classes.logoImage}>
-          <img src={logo} alt="logo" className={classes.img} />
-        </div>
-        {logoText}
-      </a>
-    </div>
-  );
+  var getBrand = () => {
+      let menuItems = props.gym.map((gym)=>{
+          return {
+              text: gym.name,
+              onSelect: ()=>{
+                  props.actions.switchGym(gym);
+              }
+          }
+      });
+      return (<div className={classes.logo}>
+          <SimpleMenu displayText={props.header.selectedGym.name} items={menuItems}/>
+      </div>);
+  };
   return (
     <div>
       <Hidden mdUp implementation="css">
@@ -110,7 +109,7 @@ const Sidebar = ({ ...props }) => {
             keepMounted: true // Better open performance on mobile.
           }}
         >
-          {brand}
+          {getBrand()}
           <div className={classes.sidebarWrapper}>
             {props.rtlActive ? <RTLNavbarLinks /> : <AdminNavbarLinks />}
             {links}
@@ -134,7 +133,7 @@ const Sidebar = ({ ...props }) => {
             })
           }}
         >
-          {brand}
+          {getBrand()}
           <div className={classes.sidebarWrapper}>{links}</div>
           {image !== undefined ? (
             <div
