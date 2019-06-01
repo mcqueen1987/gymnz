@@ -23,3 +23,5 @@ export const CREATE_GYM_FAIL = 'CREATE_GYM_FAIL';
 export const SHOW_NEW_GYM = 'SHOW_NEW_GYM';
 export const CANCEL_NEW_GYM = 'CANCEL_NEW_GYM';
 
+/**********HEADER************/
+export const SWITCH_GYM = 'SWITCH_GYM';

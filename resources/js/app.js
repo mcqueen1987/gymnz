@@ -11,7 +11,7 @@ import {Router, Route, Switch, Redirect} from "react-router-dom";
 import ReactDOM from "react-dom";
 import {Provider} from 'react-redux'
 import rootReducer from './reducers'
-import LinkedDashboard from "./layouts/Admin.jsx";
+import LinkedAdmin from "./layouts/Admin.jsx";
 import RTL from "./layouts/RTL.jsx";
 import "./assets/css/material-dashboard-react.css?v=1.6.0";
 import {createStore, applyMiddleware} from 'redux';
@@ -33,7 +33,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={hist}>
             <Switch>
-                <Route path="/admin" component={LinkedDashboard}/>
+                <Route path="/admin" component={LinkedAdmin}/>
                 <Route path="/rtl" component={RTL}/>
                 <Redirect from="/" to="/admin/dashboard"/>
             </Switch>
