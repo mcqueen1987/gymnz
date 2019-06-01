@@ -6,6 +6,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Button from "-components/CustomButtons/Button.jsx";
 import Add from "@material-ui/icons/Add"
 import DateRange from "@material-ui/icons/DateRange";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import CircularProgress from '@material-ui/core/CircularProgress';
 // core components
 import GridItem from "-components/Grid/GridItem.jsx";
 import GridContainer from "-components/Grid/GridContainer.jsx";
@@ -13,88 +17,100 @@ import Card from "-components/Card/Card.jsx";
 import CardHeader from "-components/Card/CardHeader.jsx";
 import CardIcon from "-components/Card/CardIcon.jsx";
 import CardFooter from "-components/Card/CardFooter.jsx";
-import {bugs, website, server} from "-variables/general.jsx";
-import { dailySalesChart, emailsSubscriptionChart, completedTasksChart } from "-variables/charts.jsx";
 import dashboardStyle from "-assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from '../../actions/organization';
 import NewOrgDialogue from './NewOrgDialogue';
+import NewGymDialogue from './NewGymDialogue';
 import "../../../sass/org.scss"
-
-function WarningBanner(props) {
-    if (!props.warn) {
-        return null;
-    }
-    return (
-        <div className="warning">
-            Warning!
-        </div>
-    );
-}
+import CardBody from "-components/Card/CardBody";
+import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
+import classNames from "classnames"
 
 class Organization extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            activeOrg: {}
+        };
     }
 
     showAddOrg = () => {
         this.props.actions.showNewOrg();
     };
 
-    addNewOrganization = () => {
-        const tmpOrg = state.org.concat(
-            {
-                name: "有限开发公司3",
-                add: '13 banks rd, Auckland 3',
-                owner: 'golden man 3',
-            }
-        );
-        this.setState({
-            org: tmpOrg
+    // showAddGym = () => {
+    //     this.props.actions.showNewGym();
+    // };
+
+    showAddGym = (org) => () => {
+        this.setState({activeOrg: org}, () => {
+            this.props.actions.showNewGym();
         });
     };
 
     componentWillMount = () => {
-        this.props.actions.loadOrg()
+        this.props.actions.loadOrg();
+        this.props.actions.loadGym();
     };
 
     render() {
         const {classes} = this.props;
-        console.log(this.props.organization.userInfo);
         return (
-            <div>
-                { this.props.organization.showAddOrgWindow && <NewOrgDialogue actions={this.props.actions}/> }
-                { !this.props.organization.showAddOrgWindow && <GridContainer>
-                    {
-                        this.props.organization.org.map((item) => {
-                            return (
-                                <GridItem key={item.id} xs={12} sm={6} md={6} lg={4}>
-                                    <Card>
-                                        <CardHeader color="primary" stats icon>
-                                            <CardIcon color="primary">
-                                                <h4>{item.name}</h4>
-                                            </CardIcon>
-                                            <h3 className={classes.cardTitle}>{item.description}</h3>
-                                        </CardHeader>
-                                        <CardFooter stats>
-                                            <div className={classes.stats}>
-                                                <DateRange/>
-                                                Last 24 Hours
-                                            </div>
-                                        </CardFooter>
-                                    </Card>
-                                </GridItem>
-                            )
-                        })
-                    }
+            <React.Fragment>
+                {this.props.organization.loading && <LoadingLayer/>}
+                <div className={classNames({'loading': this.props.organization.loading})}>
+                    {this.props.organization.showNewOrg && <NewOrgDialogue actions={this.props.actions}/>}
+                    {this.props.organization.showNewGym &&
+                    <NewGymDialogue org={this.state.activeOrg} actions={this.props.actions}/>}
+                    {!this.props.organization.showNewOrg && !this.props.organization.showNewGym &&
+                    <GridContainer>
+                        {
+                            this.props.organization.org.map((item) => {
+                                return (
+                                    <GridItem key={item.id} xs={12} sm={6} md={6} lg={4}>
+                                        <Card>
+                                            <CardHeader color="primary" stats icon>
+                                                <CardIcon color="primary" style={{width: '100%'}}>
+                                                    <h4>{item.name}</h4>
+                                                </CardIcon>
+                                                {/*<h3 className={classes.cardTitle}>{item.description}</h3>*/}
+                                            </CardHeader>
+                                            <CardBody>
+                                                {this.props.organization.gym.filter(gym => gym.org_id === item.id).length ?
+                                                    <List component="nav">
+                                                        {this.props.organization.gym
+                                                            .filter(gym => gym.org_id === item.id)
+                                                            .map(item => {
+                                                                return <ListItem key={item.id} button>
+                                                                    <ListItemText primary={item.name}/>
+                                                                </ListItem>;
+                                                            })}
+                                                    </List>
+                                                    :
+                                                    <h4>No gym found</h4>
+                                                }
+                                            </CardBody>
+                                            <CardFooter stats style={{marginTop: 0}}>
+                                                <div className={classes.stats}>
+                                                </div>
+                                                <Button size="sm" onClick={this.showAddGym(item)}>
+                                                    Add Gym
+                                                </Button>
+                                            </CardFooter>
+                                        </Card>
+                                    </GridItem>
+                                )
+                            })
+                        }
 
-                    {/*here add new organization*/}
+                        {/*here add new organization*/}
 
-                    <Button justIcon round className="new-org-btn" onClick={this.showAddOrg}><Add /></Button>
-
-                </GridContainer>}
-            </div>
+                        <Button justIcon round className="new-org-btn" onClick={this.showAddOrg}><Add/></Button>
+                    </GridContainer>}
+                </div>
+            </React.Fragment>
         );
     }
 }

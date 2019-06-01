@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Organization;
 use Auth;
-use Log;
 use Illuminate\Http\Request;
 
 class OrganizationController extends Controller
@@ -54,9 +53,9 @@ class OrganizationController extends Controller
         $userId = Auth::User()->id;
         $org = $request->only('name', 'description');
         $org['create_by'] = $userId;
-        $ret = Organization::insert($org);
+        $ret = Organization::create($org);
         if ($ret) {
-            return response()->json($orgList = Organization::where('create_by', '=', $userId)->get(), 200);
+            return response()->json($ret, 200);
         } else {
             return response()->json(array('message'=>'fail'), 500);
         }
