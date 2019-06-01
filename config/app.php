@@ -135,7 +135,7 @@ return [
     */
 
     'providers' => [
-
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         /*
          * Laravel Framework Service Providers...
          */
@@ -174,6 +174,9 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+
 
     ],
 

@@ -16,6 +16,7 @@
     "babel-preset-expo": "^5.1.1",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
+    "eslint-config-airbnb": "^17.1.0",
     "history": "4.7.2",
     "perfect-scrollbar": "1.4.0",
     "prettier": "1.16.4",
@@ -24,9 +25,12 @@
     "react-chartist": "0.13.3",
     "react-dom": "16.8.1",
     "react-google-maps": "9.4.5",
+    "react-redux": "^7.0.3",
     "react-router-dom": "4.3.1",
     "react-scripts": "2.1.5",
-    "react-swipeable-views": "0.13.1"
+    "react-swipeable-views": "0.13.1",
+    "redux": "^4.0.1",
+    "redux-axios-middleware": "^4.0.0"
   },
   "optionalDependencies": {
     "@types/googlemaps": "3.30.16",
@@ -42,7 +46,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
-    "axios": "^0.18",
+    "axios": "^0.19.0",
     "babel-plugin-transform-class-properties": "6.24.1",
     "bootstrap": "^4.1.0",
     "cross-env": "^5.1",

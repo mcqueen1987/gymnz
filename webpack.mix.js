@@ -10,16 +10,14 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
+
+const config = require('./webpack.config');
+
+mix.webpackConfig(config);
+
 mix.webpackConfig({
-    resolve: {
-        alias: {
-            '-assets': __dirname + '/resources/js/assets',
-            '-components': __dirname + '/resources/js/components',
-            '-views': __dirname + '/resources/js/views',
-            '-variables': __dirname + '/resources/js/variables'
-        },
-    }
+  devtool: 'inline-source-map'
 });
 
 mix.react('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css');
+  .sass('resources/sass/app.scss', 'public/css');

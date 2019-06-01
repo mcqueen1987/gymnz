@@ -8,6 +8,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -24,6 +25,7 @@
     var LogoutFunc = function () {
         document.getElementById('logout-form').submit();
     };
+    var token = "{{Auth::user() ? JWTAuth::fromUser(Auth::user()) : "" }}";
     var username = "{{ Auth::user() ? Auth::user()->name : "GUEST" }}";
 </script>
 <script src="{{ asset('js/app.js') }}" defer></script>

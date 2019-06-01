@@ -12,11 +12,8 @@ import Navbar from "-components/Navbars/Navbar.jsx";
 import Footer from "-components/Footer/Footer.jsx";
 import Sidebar from "-components/Sidebar/Sidebar.jsx";
 import FixedPlugin from "-components/FixedPlugin/FixedPlugin.jsx";
-
 import routes from "../routes.js";
-
 import dashboardStyle from "-assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
-
 import image from "-assets/img/sidebar-2.jpg";
 import logo from "-assets/img/reactlogo.png";
 
@@ -36,7 +33,7 @@ const switchRoutes = (
   </Switch>
 );
 
-class Dashboard extends React.Component {
+class Admin extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -117,22 +114,15 @@ class Dashboard extends React.Component {
             <div className={classes.map}>{switchRoutes}</div>
           )}
           {this.getRoute() ? <Footer /> : null}
-          <FixedPlugin
-            handleImageClick={this.handleImageClick}
-            handleColorClick={this.handleColorClick}
-            bgColor={this.state["color"]}
-            bgImage={this.state["image"]}
-            handleFixedClick={this.handleFixedClick}
-            fixedClasses={this.state.fixedClasses}
-          />
         </div>
       </div>
     );
   }
 }
 
-Dashboard.propTypes = {
+Admin.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(Dashboard);
+export default withStyles(dashboardStyle)(Admin);
+
