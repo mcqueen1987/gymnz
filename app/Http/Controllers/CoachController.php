@@ -51,18 +51,18 @@ class CoachController extends Controller
 
         $userId = Auth::User()->id;
 
-        $coachData = $request->only("name", "email");
+        $coachData = $request->only('name', 'email', 'password');
         // 1.create coach row
         $coach = new Coach([
-            "created_by" => $userId,
+            'created_by' => $userId,
             // need to save gym_id?
         ]);
 
         // 2.create coach user
         $user = new User();
-        $user->password = Hash::make('the-password-of-choice');
-        $user->email = $coachData["email"];
-        $user->name = $coachData["name"];
+        $user->password = Hash::make($coachData['password']);
+        $user->email = $coachData['email'];
+        $user->name = $coachData['name'];
         $user->save();
 
         // 3.map coach=>user
@@ -73,7 +73,6 @@ class CoachController extends Controller
         $coach->gym()->associate($gym);
 
         $coach->save();
-//        $coach->load('user');
 
         if ($coach) {
             return response()->json($coach, 200);

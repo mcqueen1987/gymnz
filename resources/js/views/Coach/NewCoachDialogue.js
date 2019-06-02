@@ -38,6 +38,7 @@ class NewCoachDialogue extends React.Component {
         this.state = {
             name: '',
             email: '',
+            password: '',
         }
     }
 
@@ -51,9 +52,7 @@ class NewCoachDialogue extends React.Component {
     };
 
     onChange = (field) => (e) => {
-        let changed = {};
-        changed[field] = e.currentTarget.value;
-        this.setState(changed);
+        this.setState({[field] : e.currentTarget.value});
     };
 
     render() {
@@ -75,6 +74,7 @@ class NewCoachDialogue extends React.Component {
                                         fullWidth: true
                                     }}
                                     inputProps={{
+                                        type: 'text',
                                         value: this.state.name,
                                         onChange: this.onChange('name')
                                     }}
@@ -88,8 +88,24 @@ class NewCoachDialogue extends React.Component {
                                         fullWidth: true
                                     }}
                                     inputProps={{
+                                        type: 'text',
                                         value: this.state.description,
                                         onChange: this.onChange('email')
+                                    }}
+                                />
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={12}>
+                                <CustomInput
+                                    labelText="Password (length should be no less than 8)"
+                                    id="password"
+                                    formControlProps={{
+                                        fullWidth: true
+                                    }}
+                                    inputProps={{
+                                        type: 'password',
+                                        autoComplete:'off',
+                                        value: this.state.password,
+                                        onChange: this.onChange('password')
                                     }}
                                 />
                             </GridItem>
@@ -97,7 +113,7 @@ class NewCoachDialogue extends React.Component {
                     </CardBody>
                     <CardFooter>
                         <Button onClick={this.cancel}>Cancel</Button>
-                        <Button disabled={!this.state.name.length || !this.state.email.length} onClick={this.save}
+                        <Button disabled={!this.state.name.length || !this.state.email.length || this.state.password.length < 8 } onClick={this.save}
                                 color="primary">Save</Button>
                     </CardFooter>
                 </Card>

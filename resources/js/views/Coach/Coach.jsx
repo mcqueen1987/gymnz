@@ -61,11 +61,11 @@ class Coach extends React.Component {
                                         <Card>
                                             <CardHeader color="primary" stats icon>
                                                 <CardIcon color="primary" style={{width: '100%'}}>
-                                                    <h4>{item.user.name}</h4>
+                                                    <h4>{item.user.email}</h4>
                                                 </CardIcon>
                                             </CardHeader>
                                             <CardBody>
-                                                <h3>{item.user.email}</h3>
+                                                <h3>{item.user.name}</h3>
                                             </CardBody>
                                             <CardFooter stats style={{marginTop: 0}}>
                                                 <div>
