@@ -27,18 +27,24 @@ class Coach extends React.Component {
         super(props);
         this.state = {};
     }
+    componentWillMount(){
+        if(this.props.selectedGym.id) {
+            this.props.actions.loadCoach(this.props.selectedGym.id);
+        }
+    }
 
     showNewCoach = () => {
         this.props.actions.showNewCoach();
     };
 
     shouldComponentUpdate(nextProps) {
-        if (nextProps.selectedGym.id !== this.props.selectedGym.id) {
+        if (nextProps.selectedGym.id && nextProps.selectedGym.id !== this.props.selectedGym.id) {
             this.props.actions.loadCoach(nextProps.selectedGym.id);
             return true
         }
         return nextProps.coach !== this.props.coach;
     }
+
 
     render() {
         return (

@@ -47,7 +47,7 @@ class Admin extends React.Component {
     }
 
     selectDefaultGym = () => {
-        if (this.props.gym && this.props.gym.length > 0) {
+        if ( this.props.gym && this.props.gym.length > 0) {
             this.props.actions.switchGym(this.props.gym[0]);
         }
     };
@@ -79,9 +79,11 @@ class Admin extends React.Component {
         }
     };
 
-    componentDidMount() {
+    componentWillMount(){
         this.props.actions.loadGym();
+    }
 
+    componentDidMount() {
         if (navigator.platform.indexOf("Win") > -1) {
             const ps = new PerfectScrollbar(this.refs.mainPanel);
         }
