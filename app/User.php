@@ -12,6 +12,11 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
+    public function coach()
+    {
+        return $this->hasOne('App\Coach');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

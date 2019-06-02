@@ -25,3 +25,13 @@ export const CANCEL_NEW_GYM = 'CANCEL_NEW_GYM';
 
 /**********HEADER************/
 export const SWITCH_GYM = 'SWITCH_GYM';
+
+/**********COACH************/
+export const SHOW_NEW_COACH = 'SHOW_NEW_COACH';
+export const CANCEL_NEW_COACH = 'CANCEL_NEW_COACH';
+export const CREATE_COACH = 'CREATE_COACH';
+export const CREATE_COACH_SUCCESS = 'CREATE_COACH_SUCCESS';
+export const CREATE_COACH_FAIL = 'CREATE_COACH_FAIL';
+export const LOAD_COACH = 'LOAD_COACH';
+export const LOAD_COACH_SUCCESS = 'LOAD_COACH_SUCCESS';
+export const LOAD_COACH_FAIL = 'LOAD_COACH_FAIL';

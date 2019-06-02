@@ -35,7 +35,7 @@ export function createOrg(data) {
     }
 }
 
-/********ORG*********/
+/********GYM*********/
 export function cancelNewGym() {
     return {
         type: ActionTypes.CANCEL_NEW_GYM

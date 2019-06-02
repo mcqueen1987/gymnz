@@ -8,6 +8,8 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 import OrganizationIcon from '@material-ui/icons/ThreeDRotation';
+import CoachIcon from '@material-ui/icons/SupervisorAccount';
+
 // core components/views for Admin layout
 import DashboardPage from "-views/Dashboard/Dashboard.jsx";
 import UserProfile from "-views/UserProfile/UserProfile.jsx";
@@ -18,10 +20,20 @@ import Maps from "-views/Maps/Maps.jsx";
 import NotificationsPage from "-views/Notifications/Notifications.jsx";
 import UpgradeToPro from "-views/UpgradeToPro/UpgradeToPro.jsx";
 import Organization from "-views/Organization/Organization.jsx";
+import LinkedCoach from "-views/Coach/Coach";
+
 // core components/views for RTL layout
 import RTLPage from "-views/RTLPage/RTLPage.jsx";
 
 const dashboardRoutes = [
+    {
+        path: "/coach",
+        name: "Coach",
+        rtlName: "教练管理页",
+        icon: CoachIcon,
+        component: LinkedCoach,
+        layout: "/admin"
+    },
     {
         path: "/org",
         name: "Organization",

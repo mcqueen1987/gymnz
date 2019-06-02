@@ -26,8 +26,11 @@ Route::group([
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['middleware' => 'auth:api'], function()   {
+Route::group([
+    'middleware' => 'auth:api'
+], function()   {
     Route::resource('org', 'OrganizationController');
     Route::resource('gym', 'GymController');
+    Route::resource('gym.coach', 'CoachController');
 });
 

@@ -16,4 +16,12 @@ class Gym extends Model
     protected $fillable = [
         'name', 'description', 'org_id', 'created_by'
     ];
+
+    /**
+     * Get the coach for the gym.
+     */
+    public function coaches()
+    {
+        return $this->hasMany('App\Coach');
+    }
 }
