@@ -16,19 +16,20 @@ import dashboardStyle from "-assets/jss/material-dashboard-react/views/dashboard
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from '../../actions/coach';
-import NewCoachDialogue from './NewCoachDialogue';
 import "../../../sass/coach.scss"
 import CardBody from "-components/Card/CardBody";
 import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
 import classNames from "classnames"
+import CreateNewDialogue from "-components/CumtomDialogues/CreateNewDialogue";
 
 class Coach extends React.Component {
     constructor(props) {
         super(props);
         this.state = {};
     }
-    componentWillMount(){
-        if(this.props.selectedGym.id) {
+
+    componentWillMount() {
+        if (this.props.selectedGym.id) {
             this.props.actions.loadCoach(this.props.selectedGym.id);
         }
     }
@@ -45,13 +46,27 @@ class Coach extends React.Component {
         return nextProps.coach !== this.props.coach;
     }
 
-
     render() {
+        const coachFields = [
+            {
+                name: 'name',
+                validation: v => v.length > 0,
+            },
+            {
+                name: 'email',
+                type: 'email',
+                validation: v => v.length > 0, // TODO
+            },
+            {
+                name: 'password',
+                type: 'password',
+                validation: v => v.length >= 8, // TODO
+            }
+        ];
         return (
             <React.Fragment>
                 {this.props.coach.loading && <LoadingLayer/>}
                 <div className={classNames({'loading': this.props.coach.loading})}>
-
                     {!this.props.coach.showNewCoach &&
                     <GridContainer>
                         {
@@ -80,9 +95,18 @@ class Coach extends React.Component {
                         {/*here add new coach*/}
                         <Button justIcon round className="new-coach-btn" onClick={this.showNewCoach}><Add/></Button>
                     </GridContainer>}
-                    {this.props.coach.showNewCoach &&
-                    <NewCoachDialogue selectedGym={this.props.selectedGym} coach={this.props.coach}
-                                      actions={this.props.actions}/>}
+                    {/* create coach dialogue */}
+                    {
+                        this.props.coach.showNewCoach &&
+                        <CreateNewDialogue
+                            onCancel={this.props.actions.cancelNewCoach}
+                            onSave={(data) => {
+                                this.props.actions.createCoach(this.props.selectedGym.id, data);
+                            }}
+                            inputFields={coachFields}
+                            title="Create Coach"
+                        />
+                    }
                 </div>
             </React.Fragment>
         );
