@@ -20,7 +20,7 @@ import "../../../sass/coach.scss"
 import CardBody from "-components/Card/CardBody";
 import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
 import classNames from "classnames"
-import CreateNewDialogue from "-components/CumtomDialogues/CreateNewDialogue";
+import CreateNewDialogue from "-components/CustomDialogues/CreateNewDialogue";
 
 class Coach extends React.Component {
     constructor(props) {
@@ -120,7 +120,7 @@ Coach.propTypes = {
 const mapStoreToProps = (store) => {
     return {
         coach: store.coach,
-        selectedGym: store.header.selectedGym
+        selectedGym: store.setting.selectedGym
     };
 };
 

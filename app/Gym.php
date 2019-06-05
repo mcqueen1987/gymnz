@@ -8,13 +8,17 @@ class Gym extends Model
 {
     protected $tableName = "gyms";
 
+    protected $casts = [
+        'setting' => 'array'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'org_id', 'created_by'
+        'name', 'description', 'org_id', 'created_by', 'setting'
     ];
 
     /**

@@ -91,7 +91,12 @@ class GymController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $gym = Gym::find($id);
+        $success = $gym->update($request->all());
+        if($success) {
+            return response()->json($gym, 200);
+        }
+        return response()->json(array('message'=>'fail'), 500);
     }
 
     /**

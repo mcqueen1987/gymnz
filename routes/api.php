@@ -33,4 +33,3 @@ Route::group([
     Route::resource('gym', 'GymController');
     Route::resource('gym.coach', 'CoachController');
 });
-

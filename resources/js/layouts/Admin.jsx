@@ -104,7 +104,7 @@ class Admin extends React.Component {
     }
 
     render() {
-        if(!this.props.header.selectedGym.id) {
+        if(!this.props.setting.selectedGym.id) {
             this.selectDefaultGym();
         }
         const {classes, ...rest} = this.props;
@@ -112,7 +112,7 @@ class Admin extends React.Component {
             <div className={classes.wrapper}>
                 <Sidebar
                     routes={routes}
-                    logoText={this.props.header.selectedGym.name}
+                    logoText={this.props.setting.selectedGym.name}
                     logo={logo}
                     image={this.state.image}
                     handleDrawerToggle={this.handleDrawerToggle}
@@ -148,7 +148,7 @@ Admin.propTypes = {
 const mapStoreToProps = (store) => {
     return {
         gym: store.organization.gym,
-        header: store.header
+        setting: store.setting
     };
 };
 

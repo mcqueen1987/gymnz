@@ -69,3 +69,18 @@ export function createGym(data) {
         }
     }
 }
+
+export function updateGym(gymId, data) {
+    return {
+        type: ActionTypes.UPDATE_GYM,
+        payload: {
+            request: {
+                method: 'put',
+                url: `/gym/${gymId}`,
+                data
+            }
+        }
+    }
+}
+
+

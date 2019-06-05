@@ -1,0 +1,15 @@
+@import "variables";
+.input-range__track--active,
+.input-range__slider {
+  background: #ab47bc;
+  border-color: #ab47bc;
+}
+.input-range__label {
+  color: #ab47bc;
+  font-weight: 900;
+}
+
+.input-range__label--min,
+.input-range__label--max {
+  display: none;
+}

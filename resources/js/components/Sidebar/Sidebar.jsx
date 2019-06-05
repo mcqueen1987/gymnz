@@ -89,7 +89,7 @@ const Sidebar = ({ ...props }) => {
           }
       });
       return (<div className={classes.logo}>
-          <SimpleMenu displayText={props.header.selectedGym.name} items={menuItems}/>
+          <SimpleMenu displayText={props.setting.selectedGym.name} items={menuItems}/>
       </div>);
   };
   return (

@@ -20,6 +20,10 @@ export const CREATE_GYM = 'CREATE_GYM';
 export const CREATE_GYM_SUCCESS = 'CREATE_GYM_SUCCESS';
 export const CREATE_GYM_FAIL = 'CREATE_GYM_FAIL';
 
+export const UPDATE_GYM = 'UPDATE_GYM';
+export const UPDATE_GYM_SUCCESS = 'UPDATE_GYM_SUCCESS';
+export const UPDATE_GYM_FAIL = 'UPDATE_GYM_FAIL';
+
 export const SHOW_NEW_GYM = 'SHOW_NEW_GYM';
 export const CANCEL_NEW_GYM = 'CANCEL_NEW_GYM';
 

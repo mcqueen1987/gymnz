@@ -19,7 +19,7 @@ import dashboardStyle from "-assets/jss/material-dashboard-react/views/dashboard
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as Actions from '../../actions/organization';
-import CreateNewDialogue from '-components/CumtomDialogues/CreateNewDialogue';
+import CreateNewDialogue from '-components/CustomDialogues/CreateNewDialogue';
 import "../../../sass/org.scss"
 import CardBody from "-components/Card/CardBody";
 import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
