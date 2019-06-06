@@ -24,6 +24,8 @@ import "../../../sass/org.scss"
 import CardBody from "-components/Card/CardBody";
 import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
 import classNames from "classnames"
+import Snackbar from "-components/Snackbar/Snackbar";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 class Organization extends React.Component {
     constructor(props) {
@@ -140,6 +142,15 @@ class Organization extends React.Component {
                         </GridContainer>
                     }
                 </div>
+                <Snackbar
+                    place="tc"
+                    color="danger"
+                    icon={AddAlert}
+                    message={this.props.organization.errorMsg}
+                    open={!!this.props.organization.errorMsg}
+                    closeNotification={() => this.props.actions.closeErrMsg()}
+                    close
+                />
             </React.Fragment>
         );
     }

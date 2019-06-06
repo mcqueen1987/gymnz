@@ -39,3 +39,5 @@ export const CREATE_COACH_FAIL = 'CREATE_COACH_FAIL';
 export const LOAD_COACH = 'LOAD_COACH';
 export const LOAD_COACH_SUCCESS = 'LOAD_COACH_SUCCESS';
 export const LOAD_COACH_FAIL = 'LOAD_COACH_FAIL';
+
+export const CLOSE_ERR_MSG = 'CLOSE_ERR_MSG';

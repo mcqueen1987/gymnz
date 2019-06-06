@@ -13,6 +13,8 @@ const initState = {
     showNewOrg: false,
     showNewGym: false,
     loading: false,
+    errorMsg: ''
+
 };
 
 const NonAction = {type: "NO_ACTION"};
@@ -38,7 +40,10 @@ const organization = (state = initState, action=NonAction) => {
                 org: action.payload.data,
             });
         case ActionTypes.LOAD_ORG_FAIL:
-            return Object.assign({}, state, {loading: false});
+            return Object.assign({}, state, {
+                errorMsg: 'Load organizations failed, please refresh the page',
+                loading: false
+            });
 
         case ActionTypes.LOAD_GYM:
             return Object.assign({}, state, {loading: true});
@@ -48,7 +53,10 @@ const organization = (state = initState, action=NonAction) => {
                 gym: action.payload.data,
             });
         case ActionTypes.LOAD_GYM_FAIL:
-            return Object.assign({}, state, {loading: false});
+            return Object.assign({}, state, {
+                errorMsg: 'Load gym failed, please refresh the page',
+                loading: false
+            });
 
         case ActionTypes.CREATE_GYM:
             return Object.assign({}, state, {loading: true});
@@ -59,7 +67,10 @@ const organization = (state = initState, action=NonAction) => {
                 gym: [...state.gym, action.payload.data],
             });
         case ActionTypes.CREATE_GYM_FAIL:
-            return Object.assign({}, state, {loading: false});
+            return Object.assign({}, state, {
+                errorMsg: 'Create gym failed, please try again',
+                loading: false
+            });
 
         case ActionTypes.CREATE_ORG:
             return Object.assign({}, state, {loading: true});
@@ -70,7 +81,15 @@ const organization = (state = initState, action=NonAction) => {
                 org: [...state.org, action.payload.data],
             });
         case ActionTypes.CREATE_ORG_FAIL:
-            return Object.assign({}, state, {loading: false});
+            return Object.assign({}, state, {
+                loading: false,
+                errorMsg: 'Create organization failed, please try again',
+            });
+
+        case ActionTypes.CLOSE_ERR_MSG:
+            return Object.assign({}, state, {
+                errorMsg: '',
+            });
         default:
             return state;
     }

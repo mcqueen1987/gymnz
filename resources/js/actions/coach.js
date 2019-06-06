@@ -35,3 +35,9 @@ export function createCoach(gymId, data) {
         }
     }
 }
+
+export function closeErrMsg(){
+    return {
+        type: ActionTypes.CLOSE_ERR_MSG,
+    }
+}

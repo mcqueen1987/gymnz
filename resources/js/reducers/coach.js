@@ -4,6 +4,7 @@ const initState = {
     coaches: [],
     showNewCoach: false,
     loading: false,
+    errorMsg: '',
 };
 
 const NonAction = {type: "NO_ACTION"};
@@ -24,9 +25,10 @@ const coach = (state = initState, action=NonAction) => {
                 coaches: action.payload.data,
             });
         case ActionTypes.LOAD_COACH_FAIL:
-            return Object.assign({}, state, {loading: false});
-
-
+            return Object.assign({}, state, {
+                errorMsg: 'Load coach list failed, please refresh the page',
+                loading: false
+            });
         case ActionTypes.CREATE_COACH:
             return Object.assign({}, state, {loading: true});
         case ActionTypes.CREATE_COACH_SUCCESS:
@@ -36,7 +38,14 @@ const coach = (state = initState, action=NonAction) => {
                 coaches: [...state.coaches, action.payload.data],
             });
         case ActionTypes.CREATE_COACH_FAIL:
-            return Object.assign({}, state, {loading: false});
+            return Object.assign({}, state, {
+                errorMsg: 'Create coach failed, please try again',
+                loading: false
+            });
+        case ActionTypes.CLOSE_ERR_MSG:
+            return Object.assign({}, state, {
+                errorMsg: '',
+            });
 
         default:
             return state;

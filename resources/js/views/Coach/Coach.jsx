@@ -21,6 +21,8 @@ import CardBody from "-components/Card/CardBody";
 import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
 import classNames from "classnames"
 import CreateNewDialogue from "-components/CustomDialogues/CreateNewDialogue";
+import Snackbar from "-components/Snackbar/Snackbar";
+import AddAlert from "@material-ui/icons/AddAlert";
 
 class Coach extends React.Component {
     constructor(props) {
@@ -117,6 +119,15 @@ class Coach extends React.Component {
                         />
                     }
                 </div>
+                <Snackbar
+                    place="tc"
+                    color="danger"
+                    icon={AddAlert}
+                    message={this.props.coach.errorMsg}
+                    open={!!this.props.coach.errorMsg}
+                    closeNotification={() => this.props.actions.closeErrMsg()}
+                    close
+                />
             </React.Fragment>
         );
     }
