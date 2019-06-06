@@ -51,17 +51,26 @@ class Coach extends React.Component {
             {
                 name: 'name',
                 validation: v => v.length > 0,
+                placeholder: 'Name'
             },
             {
                 name: 'email',
                 type: 'email',
-                validation: v => v.length > 0, // TODO
+                validation: v => {
+                    if (v.length && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v)) {
+                        return true
+                    }
+                    return false
+                },
+                placeholder: 'Email'
             },
             {
                 name: 'password',
                 type: 'password',
                 validation: v => v.length >= 8, // TODO
+                placeholder: 'Password'
             }
+
         ];
         return (
             <React.Fragment>

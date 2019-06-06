@@ -74,10 +74,19 @@ class CreateNewDialogue extends React.Component {
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
+                                            error={
+                                                this.state[field.name] ? !field.validation(this.state[field.name])
+                                                    : undefined
+                                            }
+                                            success={
+                                                this.state[field.name] ? field.validation(this.state[field.name])
+                                                    : undefined
+                                            }
                                             inputProps={{
                                                 type: field.type || 'text',
                                                 value: this.state[field.name],
-                                                onChange: this.onChange(field.name)
+                                                onChange: this.onChange(field.name),
+                                                placeholder: field.placeholder || ''
                                             }}
                                         />
                                     </GridItem>
