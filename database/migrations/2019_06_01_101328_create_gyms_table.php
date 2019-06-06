@@ -18,8 +18,8 @@ class CreateGymsTable extends Migration
             $table->string('name');
             $table->integer('created_by');
             $table->string('description');
+            $table->string('setting')->default('');
             $table->integer('org_id');
-            $table->json('setting')->after('description');
             $table->timestamps();
         });
     }
