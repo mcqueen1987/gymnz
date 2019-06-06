@@ -7,11 +7,6 @@ const initState = {
     userInfo:{name:'', email:''},
     // load from previous setting when init
     selectedGym: localStorage && JSON.parse(localStorage.getItem(SELECTED_GYM_KEY)) ? JSON.parse(localStorage.getItem(SELECTED_GYM_KEY)) : {},
-    settings: {
-        startTime: 36,
-        endTime: 88,
-    },
-    gym: [],
     loading: false,
 };
 
@@ -31,9 +26,10 @@ const setting= (state = initState, action=NON_ACTION) => {
         case ActionTypes.UPDATE_GYM:
             return Object.assign({}, state, {loading: true});
         case ActionTypes.UPDATE_GYM_SUCCESS:
+            localStorage.setItem(SELECTED_GYM_KEY, JSON.stringify(action.payload.data))
             return Object.assign({}, state, {
                 loading: false,
-                gym: [...state.gym, action.payload.data],
+                selectedGym: action.payload.data
             });
         case ActionTypes.UPDATE_GYM_FAIL:
             return Object.assign({}, state, {loading: false});

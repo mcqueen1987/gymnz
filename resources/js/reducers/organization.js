@@ -90,6 +90,10 @@ const organization = (state = initState, action=NonAction) => {
             return Object.assign({}, state, {
                 errorMsg: '',
             });
+        case ActionTypes.UPDATE_GYM_SUCCESS:
+            return Object.assign({}, state, {
+                gym: state.gym.map(g => g.id === action.payload.data.id ? action.payload.data : g)
+            });
         default:
             return state;
     }
