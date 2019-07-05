@@ -49,7 +49,7 @@ class OrderController extends Controller
 
         // TODO validate
 
-        // parepare data
+        // prepare data
         $userId = Auth::User()->id;
         $customerData = $request->only('name', 'phone', 'sex');
         // convert phone to email
