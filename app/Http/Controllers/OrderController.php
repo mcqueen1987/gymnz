@@ -51,7 +51,7 @@ class OrderController extends Controller
 
         // parepare data
         $userId = Auth::User()->id;
-        $customerData = $request->only('name', 'phone', 'password');
+        $customerData = $request->only('name', 'phone', 'sex');
         // convert phone to email
         $customerEmail = $customerData['phone'] . self::EMAIL_SUFFIX;
 
@@ -65,6 +65,7 @@ class OrderController extends Controller
             $customer->password = Hash::make(self::DEFAULT_PASSWORD);
             $customer->email = $customerEmail;
             $customer->name = $customerData['name'];
+            $customer->sex = $customerData['sex'];
             $customer->save();
         }
         // 2. create order

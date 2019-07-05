@@ -82,6 +82,11 @@ class Dashboard extends React.Component {
         value: '',
         validation: v => v.length > 0
       }, {
+        name: 'sex',
+        label: 'Sex',
+        value: '',
+        options: [{ value: 0, label: 'Female' }, { value: 1, label: 'Male' }],
+      }, {
         name: 'phone',
         type: 'phone',
         value: '',
