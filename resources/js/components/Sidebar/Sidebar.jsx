@@ -85,6 +85,7 @@ const Sidebar = ({ ...props }) => {
               text: gym.name,
               onSelect: ()=>{
                   props.actions.switchGym(gym);
+                  props.actions.loadCustomer(gym.id);
               }
           }
       });

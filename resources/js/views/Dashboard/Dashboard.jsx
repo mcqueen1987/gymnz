@@ -32,7 +32,6 @@ import CardHeader from "-components/Card/CardHeader.jsx";
 import CardIcon from "-components/Card/CardIcon.jsx";
 import CardBody from "-components/Card/CardBody.jsx";
 import CardFooter from "-components/Card/CardFooter.jsx";
-import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
 
 import { bugs, website, server } from "-variables/general.jsx";
 import Button from "-components/CustomButtons/Button.jsx";
@@ -118,7 +117,6 @@ class Dashboard extends React.Component {
   render() {
     const { classes } = this.props;
     return this.props.gym.showNewOrder ? this.newOrderDialog() : (<div>
-      {this.props.gym.loading && <LoadingLayer />}
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>

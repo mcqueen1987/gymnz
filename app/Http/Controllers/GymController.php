@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Gym;
+use App\Order;
 use Auth;
 
 use http\Env\Response;
@@ -9,13 +11,6 @@ use Illuminate\Http\Request;
 
 class GymController extends Controller
 {
-    /**
-     * GymController constructor
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Display a listing of the resource.
@@ -26,10 +21,10 @@ class GymController extends Controller
     {
         $userId = Auth::user()->id;
         $ret = Gym::where("created_by", "=", $userId)->get();
-        if($ret){
+        if ($ret) {
             return response()->json($ret, 200);
         }
-        return response()->json(array('message'=>'fail'), 500);
+        return response()->json(array('message' => 'fail'), 500);
     }
 
     /**
@@ -54,10 +49,10 @@ class GymController extends Controller
         $gym = $request->only("name", "description", "org_id");
         $gym['created_by'] = $userId;
         $ret = Gym::create($gym);
-        if($ret){
+        if ($ret) {
             return response()->json($ret, 200);
         }
-        return response()->json(array('message'=>'fail'), 500);
+        return response()->json(array('message' => 'fail'), 500);
     }
 
     /**
@@ -92,14 +87,14 @@ class GymController extends Controller
     public function update(Request $request, $id)
     {
         $gym = Gym::find($id);
-	if(!$gym){
-		return response()->json(array('message'=>'fail'), 500);
-	}
+        if (!$gym) {
+            return response()->json(array('message' => 'fail'), 500);
+        }
         $success = $gym->update($request->all());
-        if($success) {
+        if ($success) {
             return response()->json($gym, 200);
         }
-        return response()->json(array('message'=>'fail'), 500);
+        return response()->json(array('message' => 'fail'), 500);
     }
 
     /**
@@ -111,5 +106,21 @@ class GymController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function getCustomerList($id)
+    {
+        // TODO permission check
+        $customers = Order::with('customer')
+            ->where('gym_id', '=', $id)
+            ->get()
+            ->pluck('customer')
+            ->unique('id')
+            ->toArray();
+        if (is_array($customers)) {
+            return response()->json($customers, 200);
+        }
+        return response()->json(array('message' => 'fail'), 500);
     }
 }

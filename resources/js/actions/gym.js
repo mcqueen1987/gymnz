@@ -49,6 +49,18 @@ export function createCoach(gymId, data) {
     }
 }
 
+/********LOAD CUSTOMER*********/
+export function loadCustomer(gymId) {
+    return {
+        type: ActionTypes.LOAD_CUSTOMER,
+        payload: {
+            request:{
+                url:'/gym/' + gymId +'/customer'
+            }
+        }
+    };
+}
+
 
 /********BANNER*********/
 export function closeErrMsg(){
