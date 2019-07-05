@@ -11117,5 +11117,37 @@ a.text-dark:focus {
           filter: blur(4px);
 }
 
+.add-order {
+  position: fixed !important;
+  right: 30px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.hide {
+  display: none !important;
+}
+
+.form-selection {
+  padding-top: 40px;
+}
+
+.form-selection > div {
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+  border-radius: 0;
+  border-color: #b8b8b8;
+  box-shadow: none !important;
+}
+
+.form-selection > div:hover {
+  border-color: #b8b8b8;
+}
+
+.form-selection > div > div:first-child {
+  padding-left: 0;
+}
+
 
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiIvY3NzL2FwcC5jc3MiLCJzb3VyY2VSb290IjoiIn0=*/

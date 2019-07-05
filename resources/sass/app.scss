@@ -21,3 +21,32 @@
 .loading {
   filter: blur(4px);
 }
+
+.add-order {
+  position: fixed !important;
+  right: 30px;
+  bottom: 20px;
+  z-index: 1000;
+}
+
+.hide {
+  display: none !important;
+}
+
+.form-selection {
+  padding-top: 40px;
+  > div {
+    border-top: none !important;;
+    border-left: none !important;;
+    border-right: none !important;;
+    border-radius: 0;
+    border-color: rgb(184, 184, 184);
+    &:hover {
+      border-color: rgb(184, 184, 184);
+    }
+    box-shadow: none !important;
+    > div:first-child {
+      padding-left:0;
+    }
+  }
+}

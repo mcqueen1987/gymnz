@@ -80,7 +80,7 @@ const Sidebar = ({ ...props }) => {
     </List>
   );
   var getBrand = () => {
-      let menuItems = props.gym.map((gym)=>{
+      let menuItems = props.gyms.map((gym)=>{
           return {
               text: gym.name,
               onSelect: ()=>{

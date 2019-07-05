@@ -1,13 +1,11 @@
 import { combineReducers } from 'redux';
 import organization from './organization';
-import dashboard from './dashboard';
 import setting from './setting';
-import coach from './coach';
+import gym from './gym';
 
 
 export default combineReducers({
     setting,
     organization,
-    dashboard,
-    coach,
+    gym,
 });

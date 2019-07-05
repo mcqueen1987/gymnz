@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, Redirect} from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
 import PerfectScrollbar from "perfect-scrollbar";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
@@ -9,15 +9,16 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Navbar from "-components/Navbars/Navbar.jsx";
-import Footer from "-components/Footer/Footer.jsx";
 import Sidebar from "-components/Sidebar/Sidebar.jsx";
 import routes from "../routes.js";
 import image from "-assets/img/sidebar-2.jpg";
 import logo from "-assets/img/reactlogo.png";
-import {bindActionCreators} from "redux";
+import { bindActionCreators } from "redux";
 import * as Actions from "../actions";
 import connect from "react-redux/es/connect/connect";
 import dashboardStyle from "-assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx"
+import Snackbar from "-components/Snackbar/Snackbar";
+import AddAlert from "@material-ui/icons/AddAlert";
 const switchRoutes = (
     <Switch>
         {routes.map((prop, key) => {
@@ -47,26 +48,26 @@ class Admin extends React.Component {
     }
 
     selectDefaultGym = () => {
-        if ( this.props.gym && this.props.gym.length > 0) {
-            this.props.actions.switchGym(this.props.gym[0]);
+        if (this.props.gyms && this.props.gyms.length > 0) {
+            this.props.actions.switchGym(this.props.gyms[0]);
         }
     };
 
     handleImageClick = image => {
-        this.setState({image: image});
+        this.setState({ image: image });
     };
     handleColorClick = color => {
-        this.setState({color: color});
+        this.setState({ color: color });
     };
     handleFixedClick = () => {
         if (this.state.fixedClasses === "dropdown") {
-            this.setState({fixedClasses: "dropdown show"});
+            this.setState({ fixedClasses: "dropdown show" });
         } else {
-            this.setState({fixedClasses: "dropdown"});
+            this.setState({ fixedClasses: "dropdown" });
         }
     };
     handleDrawerToggle = () => {
-        this.setState({mobileOpen: !this.state.mobileOpen});
+        this.setState({ mobileOpen: !this.state.mobileOpen });
     };
 
     getRoute() {
@@ -75,11 +76,11 @@ class Admin extends React.Component {
 
     resizeFunction = () => {
         if (window.innerWidth >= 960) {
-            this.setState({mobileOpen: false});
+            this.setState({ mobileOpen: false });
         }
     };
 
-    componentWillMount(){
+    componentWillMount() {
         this.props.actions.loadGym();
     }
 
@@ -94,7 +95,7 @@ class Admin extends React.Component {
         if (e.history.location.pathname !== e.location.pathname) {
             this.refs.mainPanel.scrollTop = 0;
             if (this.state.mobileOpen) {
-                this.setState({mobileOpen: false});
+                this.setState({ mobileOpen: false });
             }
         }
     }
@@ -104,10 +105,10 @@ class Admin extends React.Component {
     }
 
     render() {
-        if(!this.props.setting.selectedGym.id) {
+        if (!this.props.setting.selectedGym.id) {
             this.selectDefaultGym();
         }
-        const {classes, ...rest} = this.props;
+        const { classes, ...rest } = this.props;
         return (
             <div className={classes.wrapper}>
                 <Sidebar
@@ -129,12 +130,31 @@ class Admin extends React.Component {
                     {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
                     {this.getRoute() ? (
                         <div className={classes.content}>
+                            <Snackbar
+                                place="tc"
+                                color="danger"
+                                icon={AddAlert}
+                                message={this.props.gym.errorMsg}
+                                open={!!this.props.gym.errorMsg}
+                                closeNotification={() => this.props.actions.closeErrMsg()}
+                                close
+                            />
+                            <Snackbar
+                                place="tc"
+                                color="success"
+                                icon={AddAlert}
+                                autoHideDuration={6000}
+                                message={this.props.gym.successMsg}
+                                open={!!this.props.gym.successMsg}
+                                closeNotification={() => this.props.actions.closeSuccessMsg()}
+                                onClose={() => this.props.actions.closeSuccessMsg()}
+                                close
+                            />
                             <div className={classes.container}>{switchRoutes}</div>
                         </div>
                     ) : (
-                        <div className={classes.map}>{switchRoutes}</div>
-                    )}
-                    {this.getRoute() ? <Footer/> : null}
+                            <div className={classes.map}>{switchRoutes}</div>
+                        )}
                 </div>
             </div>
         );
@@ -147,7 +167,8 @@ Admin.propTypes = {
 
 const mapStoreToProps = (store) => {
     return {
-        gym: store.organization.gym,
+        gyms: store.organization.gym,
+        gym: store.gym,
         setting: store.setting
     };
 };

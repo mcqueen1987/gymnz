@@ -29,7 +29,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group([
     'middleware' => 'auth:api'
 ], function()   {
+    Route::get('coach', 'CoachController@getCoachInfoByUserId');
     Route::resource('org', 'OrganizationController');
     Route::resource('gym', 'GymController');
     Route::resource('gym.coach', 'CoachController');
+    Route::resource('gym.order', 'OrderController');
 });
+

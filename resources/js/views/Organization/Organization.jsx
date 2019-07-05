@@ -57,10 +57,8 @@ class Organization extends React.Component {
             title: 'Create Organization',
             inputFields: [{
                 name: 'name',
-                validation: v => v.length > 0
             }, {
                 name: 'description',
-                validation: v => v.length > 0
             }]
         };
         const gymFields = {
@@ -72,10 +70,8 @@ class Organization extends React.Component {
             },
             inputFields: [{
                 name: 'name',
-                validation: v => v.length > 0,
             }, {
                 name: 'description',
-                validation: v => v.length > 0,
             }]
         };
         if(this.props.organization.showNewOrg) {
