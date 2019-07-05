@@ -45,6 +45,7 @@ const gym = (state = initState, action = NonAction) => {
             return Object.assign({}, state, {
                 showNewCoach: false,
                 loading: false,
+                successMsg: 'Coach added',
                 coaches: [...state.coaches, action.payload.data],
             });
         case ActionTypes.CREATE_COACH_FAIL:

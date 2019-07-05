@@ -19,6 +19,7 @@ import connect from "react-redux/es/connect/connect";
 import dashboardStyle from "-assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx"
 import Snackbar from "-components/Snackbar/Snackbar";
 import AddAlert from "@material-ui/icons/AddAlert";
+import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
 const switchRoutes = (
     <Switch>
         {routes.map((prop, key) => {
@@ -130,6 +131,7 @@ class Admin extends React.Component {
                     {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
                     {this.getRoute() ? (
                         <div className={classes.content}>
+                            {this.props.gym.loading && <LoadingLayer />}
                             <Snackbar
                                 place="tc"
                                 color="danger"
