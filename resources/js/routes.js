@@ -23,12 +23,21 @@ import LinkedDashboard from "-views/Dashboard/Dashboard.jsx";
 // import UpgradeToPro from "-views/UpgradeToPro/UpgradeToPro.jsx";
 import Organization from "-views/Organization/Organization.jsx";
 import LinkedCoach from "-views/Coach/Coach";
+import Customers from "-views/Customer/Customers";
 
 // core components/views for RTL layout
 import RTLPage from "-views/RTLPage/RTLPage.jsx";
 import GymSettings from "-views/GymSetting/GymSettings";
 
 const dashboardRoutes = [
+    {
+        path: "/dashboard",
+        name: "Dashboard",
+        rtlName: "لوحة القيادة",
+        icon: Dashboard,
+        component: LinkedDashboard,
+        layout: "/admin"
+    },
     {
         path: "/setting",
         name: "Setting",
@@ -54,13 +63,14 @@ const dashboardRoutes = [
         layout: "/admin"
     },
     {
-        path: "/dashboard",
-        name: "Dashboard",
-        rtlName: "لوحة القيادة",
-        icon: Dashboard,
-        component: LinkedDashboard,
+        path: "/customers",
+        name: "Customer",
+        rtlName: "",
+        icon: OrganizationIcon,
+        component: ()=><Customers/>,
         layout: "/admin"
-    }
+    },
+    
     // {
     //     path: "/user",
     //     name: "User Profile",

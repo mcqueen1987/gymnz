@@ -51,24 +51,8 @@ class Admin extends React.Component {
     selectDefaultGym = () => {
         if (this.props.gyms && this.props.gyms.length > 0) {
             this.props.actions.switchGym(this.props.gyms[0]);
+            this.props.actions.loadCustomer(this.props.gyms[0].id);
         }
-    };
-
-    handleImageClick = image => {
-        this.setState({ image: image });
-    };
-    handleColorClick = color => {
-        this.setState({ color: color });
-    };
-    handleFixedClick = () => {
-        if (this.state.fixedClasses === "dropdown") {
-            this.setState({ fixedClasses: "dropdown show" });
-        } else {
-            this.setState({ fixedClasses: "dropdown" });
-        }
-    };
-    handleDrawerToggle = () => {
-        this.setState({ mobileOpen: !this.state.mobileOpen });
     };
 
     getRoute() {
@@ -83,6 +67,10 @@ class Admin extends React.Component {
 
     componentWillMount() {
         this.props.actions.loadGym();
+        //load customer list when init
+        if (this.props.setting.selectedGym.id) {
+            this.props.actions.loadCustomer(this.props.setting.selectedGym.id);
+        }
     }
 
     componentDidMount() {
@@ -128,35 +116,30 @@ class Admin extends React.Component {
                         handleDrawerToggle={this.handleDrawerToggle}
                         {...rest}
                     />
-                    {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
-                    {this.getRoute() ? (
-                        <div className={classes.content}>
-                            {this.props.gym.loading && <LoadingLayer />}
-                            <Snackbar
-                                place="tc"
-                                color="danger"
-                                icon={AddAlert}
-                                message={this.props.gym.errorMsg}
-                                open={!!this.props.gym.errorMsg}
-                                closeNotification={() => this.props.actions.closeErrMsg()}
-                                close
-                            />
-                            <Snackbar
-                                place="tc"
-                                color="success"
-                                icon={AddAlert}
-                                autoHideDuration={6000}
-                                message={this.props.gym.successMsg}
-                                open={!!this.props.gym.successMsg}
-                                closeNotification={() => this.props.actions.closeSuccessMsg()}
-                                onClose={() => this.props.actions.closeSuccessMsg()}
-                                close
-                            />
-                            <div className={classes.container}>{switchRoutes}</div>
-                        </div>
-                    ) : (
-                            <div className={classes.map}>{switchRoutes}</div>
-                        )}
+                    <div className={classes.content}>
+                        {this.props.gym.loading && <LoadingLayer />}
+                        <Snackbar
+                            place="tc"
+                            color="danger"
+                            icon={AddAlert}
+                            message={this.props.gym.errorMsg}
+                            open={!!this.props.gym.errorMsg}
+                            closeNotification={() => this.props.actions.closeErrMsg()}
+                            close
+                        />
+                        <Snackbar
+                            place="tc"
+                            color="success"
+                            icon={AddAlert}
+                            autoHideDuration={6000}
+                            message={this.props.gym.successMsg}
+                            open={!!this.props.gym.successMsg}
+                            closeNotification={() => this.props.actions.closeSuccessMsg()}
+                            onClose={() => this.props.actions.closeSuccessMsg()}
+                            close
+                        />
+                        <div className={classes.container}>{switchRoutes}</div>
+                    </div>
                 </div>
             </div>
         );

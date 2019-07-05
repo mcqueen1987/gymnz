@@ -1,3 +1,5 @@
+export const CLOSE_ERR_MSG = 'CLOSE_ERR_MSG'
+export const CLOSE_SUCCESS_MSG = 'CLOSE_SUCCESS_MSG';
 
 /**********ORG************/
 export const SHOW_NEW_ORG = 'SHOW_NEW_ORG';
@@ -43,8 +45,6 @@ export const LOAD_COACH = 'LOAD_COACH';
 export const LOAD_COACH_SUCCESS = 'LOAD_COACH_SUCCESS';
 export const LOAD_COACH_FAIL = 'LOAD_COACH_FAIL';
 
-export const CLOSE_ERR_MSG = 'CLOSE_ERR_MSG';
-export const CLOSE_SUCCESS_MSG = 'CLOSE_SUCCESS_MSG';
 
 /**********ORDER************/
 export const CREATE_ORDER = 'CREATE_ORDER';
@@ -52,3 +52,8 @@ export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
 export const CREATE_ORDER_FAIL = 'CREATE_ORDER_FAIL';
 export const SHOW_NEW_ORDER = 'SHOW_NEW_ORDER';
 export const CANCEL_NEW_ORDER = 'CANCEL_NEW_ORDER';
+
+/**********CUSTOMER************/
+export const LOAD_CUSTOMER = 'LOAD_CUSTOMER';
+export const LOAD_CUSTOMER_SUCCESS = 'LOAD_CUSTOMER_SUCCESS';
+export const LOAD_CUSTOMER_FAIL = 'LOAD_CUSTOMER_FAIL';

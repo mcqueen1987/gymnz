@@ -1,10 +1,15 @@
 import * as ActionTypes from '../actions/actionTypes';
 
 const initState = {
-    // coach related
+    // data
     coaches: [],
+    customers: [],
+
+    // dialogue
     showNewCoach: false,
     showNewOrder: false,
+
+    // status and message
     loading: false,
     errorMsg: '',
     successMsg: '',
@@ -27,6 +32,19 @@ const gym = (state = initState, action = NonAction) => {
         case ActionTypes.CANCEL_NEW_ORDER:
             return Object.assign({}, state, { showNewOrder: false });
 
+        case ActionTypes.LOAD_CUSTOMER:
+            return Object.assign({}, state, { loading: true });
+        case ActionTypes.LOAD_CUSTOMER_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                customers: action.payload.data,
+            });
+        case ActionTypes.LOAD_CUSTOMER_FAIL:
+            return Object.assign({}, state, {
+                errorMsg: 'Load customer list failed, please refresh the page',
+                loading: false
+            });
+
         case ActionTypes.LOAD_COACH:
             return Object.assign({}, state, { loading: true });
         case ActionTypes.LOAD_COACH_SUCCESS:
@@ -39,6 +57,7 @@ const gym = (state = initState, action = NonAction) => {
                 errorMsg: 'Load coach list failed, please refresh the page',
                 loading: false
             });
+
         case ActionTypes.CREATE_COACH:
             return Object.assign({}, state, { loading: true });
         case ActionTypes.CREATE_COACH_SUCCESS:

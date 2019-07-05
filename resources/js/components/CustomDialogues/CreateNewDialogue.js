@@ -67,20 +67,7 @@ class CreateNewDialogue extends React.Component {
     getLabel = (field) => {
         return field.label ? field.label : field.name.charAt(0).toUpperCase() + field.name.slice(1);
     };
-
-    getMenuRow = (field) => {
-        let menuItems = field.map((gym) => {
-            return {
-                text: gym.name,
-                onSelect: () => {
-                    props.actions.switchGym(gym);
-                }
-            }
-        });
-        return (<div className={classes.logo}>
-            <SimpleMenu displayText={props.setting.selectedGym.name} items={menuItems} />
-        </div>);
-    }
+    
     getInputType = field => {
         if(!field.type) {
             return 'text';
