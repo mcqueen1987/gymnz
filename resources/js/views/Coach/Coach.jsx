@@ -54,9 +54,9 @@ class Coach extends React.Component {
                 label: 'Sex',
                 options: [{ value: 0, label: 'Female' }, { value: 1, label: 'Male' }],
             }, {
-                name: 'email',
-                type: 'email',
-                placeholder: 'Email'
+                name: 'phone',
+                type: 'phone',
+                placeholder: 'phone'
             }, {
                 name: 'password',
                 type: 'password',

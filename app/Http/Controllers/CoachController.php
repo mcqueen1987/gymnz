@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class CoachController extends Controller
 {
+    const EMAIL_SUFFIX = '@o2-fit.com';
 
     /**
      * @param $gym_id gym id
@@ -48,10 +49,13 @@ class CoachController extends Controller
      */
     public function store(Request $request, $gym_id)
     {
-
         $userId = Auth::User()->id;
 
-        $coachData = $request->only('name', 'email', 'password','sex');
+        $coachData = $request->only('name', 'phone', 'password','sex');
+
+        // convert phone to email
+        $customerEmail = $coachData['phone'] . self::EMAIL_SUFFIX;
+
         // 1.create coach row
         $coach = new Coach([
             'created_by' => $userId,
@@ -60,7 +64,7 @@ class CoachController extends Controller
         // 2.create coach user
         $user = new User();
         $user->password = Hash::make($coachData['password']);
-        $user->email = $coachData['email'];
+        $user->email = $customerEmail;
         $user->name = $coachData['name'];
         $user->sex = $coachData['sex'];
         $user->save();

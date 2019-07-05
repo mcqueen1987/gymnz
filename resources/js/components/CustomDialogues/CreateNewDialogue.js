@@ -50,7 +50,7 @@ class CreateNewDialogue extends React.Component {
         let data = {};
         Object.keys(this.state).forEach(k => {
             data[k] = this.state[k];
-            if(data[k].value) {
+            if(data[k].label) {
                 data[k] = data[k].value;
             }
         });
@@ -92,7 +92,7 @@ class CreateNewDialogue extends React.Component {
                     validateFunc = v => v.length && /^\d+$/.test(v);
                     break;
                 case 'phone':
-                    validateFunc = v => v.length && /^\d{11}$/.test(v);
+                    validateFunc = v => v.length && /^[1]([3-9])[0-9]{9}$/.test(v);
                     break;
                 case 'email':
                     validateFunc = v => v.length && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
