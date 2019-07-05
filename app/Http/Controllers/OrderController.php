@@ -6,6 +6,7 @@ use App\Coach;
 use App\User;
 use App\Gym;
 use App\Order;
+use Carbon\Carbon;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
@@ -73,6 +74,9 @@ class OrderController extends Controller
         $order->created_by = $userId;
         $order->price = $request->input('price');
         $order->course_amount = $request->input('amount');
+        $order->duration = $request->input('duration');
+        // calcuate expiry
+        $order->expiry = Carbon::now()->addMonths($order->duration);
         // 3. map user
         $order->customer()->associate($customer);
         // 4. map gym

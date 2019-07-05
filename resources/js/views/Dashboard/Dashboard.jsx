@@ -78,21 +78,17 @@ class Dashboard extends React.Component {
       inputFields: [{
         name: 'name',
         label: 'Customer Name',
-        value: '',
         validation: v => v.length > 0
       }, {
         name: 'sex',
         label: 'Sex',
-        value: '',
         options: [{ value: 0, label: 'Female' }, { value: 1, label: 'Male' }],
       }, {
         name: 'phone',
         type: 'phone',
-        value: '',
         placeholder: 'Phone'
       }, {
         name: 'price',
-        value: '',
         type: 'number',
         placeholder: 'Price',
       }, {
@@ -101,13 +97,17 @@ class Dashboard extends React.Component {
         type: 'number',
         placeholder: 'amount'
       }, {
+        name: 'duration',
+        label: 'Duration (month)',
+        type: 'number',
+        placeholder: 'Duration (month)'
+      }, {
         name: 'gym',
         value: this.props.selectedGym.id,
         hide: true
       }, {
         name: 'coach',
         label: 'Coach',
-        value: '',
         options: this.props.gym.coaches.map((coach) => { return { value: coach.id, label: coach.user.name } }),
       }]
     };
