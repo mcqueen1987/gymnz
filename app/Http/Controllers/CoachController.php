@@ -65,9 +65,8 @@ class CoachController extends Controller
         $user = new User();
         $user->password = Hash::make($coachData['password']);
         $user->email = $customerEmail;
-        $user->phone = $coachData['phone'];
         $user->name = $coachData['name'];
-        $user->sex = $coachData['sex']['value'];
+        $user->sex = $coachData['sex'];
         $user->save();
 
         // 3.map coach=>user

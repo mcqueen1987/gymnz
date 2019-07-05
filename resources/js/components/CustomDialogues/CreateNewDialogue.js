@@ -50,7 +50,7 @@ class CreateNewDialogue extends React.Component {
         let data = {};
         Object.keys(this.state).forEach(k => {
             data[k] = this.state[k];
-            if(data[k].value) {
+            if(data[k].label) {
                 data[k] = data[k].value;
             }
         });
