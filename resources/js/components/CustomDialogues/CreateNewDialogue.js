@@ -1,4 +1,5 @@
 import React from "react";
+import Select from 'react-select';
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
@@ -34,10 +35,11 @@ const styles = {
 class CreateNewDialogue extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        let data = {};
         props.inputFields.forEach((field) => {
-            this.state[field.name] = field.value || '';
+            data[field.name] = field.value || '';
         })
+        this.state = data;
     }
 
     cancel = () => {
@@ -45,7 +47,15 @@ class CreateNewDialogue extends React.Component {
     };
 
     save = () => {
-        this.props.onSave({...this.state});
+        let data = {};
+        Object.keys(this.state).forEach(k => {
+            data[k] = this.state[k];
+            if(data[k].value) {
+                data[k] = data[k].value;
+            }
+        });
+        console.log(data);
+        this.props.onSave(data);
     };
 
     onChange = (field) => (e) => {
@@ -54,36 +64,104 @@ class CreateNewDialogue extends React.Component {
         this.setState(changed);
     };
 
+    getLabel = (field) => {
+        return field.label ? field.label : field.name.charAt(0).toUpperCase() + field.name.slice(1);
+    };
+
+    getMenuRow = (field) => {
+        let menuItems = field.map((gym) => {
+            return {
+                text: gym.name,
+                onSelect: () => {
+                    props.actions.switchGym(gym);
+                }
+            }
+        });
+        return (<div className={classes.logo}>
+            <SimpleMenu displayText={props.setting.selectedGym.name} items={menuItems} />
+        </div>);
+    }
+    getInputType = field => {
+        if(!field.type) {
+            return 'text';
+        }
+        if(field.type === 'phone') {
+            return 'number';
+        }
+        return field.type;
+    }
+
+    isValid = (field) => {
+        let validateFunc = (v) => true;
+        if (field.validation) {
+            validateFunc = field.validation;
+        } else {
+            let t = field.type ? field.type.toLowerCase() : '';
+            switch (t) {
+                case 'password':
+                    validateFunc = v => v.length >= 8;
+                    break;
+                case 'number':
+                    validateFunc = v => v.length && /^\d+$/.test(v);
+                    break;
+                case 'phone':
+                    validateFunc = v => v.length && /^\d{11}$/.test(v);
+                    break;
+                case 'email':
+                    validateFunc = v => v.length && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v);
+                    break;
+                default:
+                    validateFunc = (v) => {
+                        let value = v;
+                        if(v.value) {
+                            value = v.value;
+                        }
+                        return !!value;
+                    }
+            }
+        }
+        return validateFunc(this.state[field.name]);
+    }
+
     render() {
-        const {classes} = this.props;
+        const { classes } = this.props;
         return (<GridContainer alignItems="center" justify={"center"}>
             <GridItem xs={12} sm={12} md={8}>
                 <Card>
                     <CardHeader color="primary">
                         <h4 className={classes.cardTitleWhite}>{this.props.title}</h4>
-                        <p className={classes.cardCategoryWhite}>Complete the profile</p>
+                        <p className={classes.cardCategoryWhite}>{this.props.subtitle || ''}</p>
                     </CardHeader>
                     <CardBody>
                         <GridContainer>
                             {this.props.inputFields.map((field) => {
+                                // selection list
+                                if (field.options) {
+                                    return <GridItem gridClass={field.hide && 'hide'} key={field.name} xs={12} sm={12} md={12}> 
+                                    <Select
+                                        className='form-selection'
+                                        options={field.options}
+                                        onChange={(opt) => {
+                                            this.setState({[field.name]: opt});
+                                            this.isValid(field);
+                                        }}
+                                        placeholder={this.getLabel(field)}
+                                        value={this.state[field.name]}
+                                    />
+                                    </GridItem>;
+                                }
                                 return (
-                                    <GridItem key={field.name} xs={12} sm={12} md={12}>
+                                    <GridItem gridClass={field.hide && 'hide'} key={field.name} xs={12} sm={12} md={12}>
                                         <CustomInput
-                                            labelText={field.name.charAt(0).toUpperCase() + field.name.slice(1)}
-                                            id={field.name}
+                                            labelText={this.getLabel(field)}
+                                            id={field.name.replace(/ /, '-')}
                                             formControlProps={{
                                                 fullWidth: true
                                             }}
-                                            error={
-                                                this.state[field.name] ? !field.validation(this.state[field.name])
-                                                    : undefined
-                                            }
-                                            success={
-                                                this.state[field.name] ? field.validation(this.state[field.name])
-                                                    : undefined
-                                            }
+                                            error={this.state[field.name] ? !this.isValid(field) : undefined}
+                                            success={this.state[field.name] ? this.isValid(field) : undefined}
                                             inputProps={{
-                                                type: field.type || 'text',
+                                                type: this.getInputType(field),
                                                 value: this.state[field.name],
                                                 onChange: this.onChange(field.name),
                                                 placeholder: field.placeholder || ''
@@ -92,6 +170,7 @@ class CreateNewDialogue extends React.Component {
                                     </GridItem>
                                 );
                             })}
+
                         </GridContainer>
                     </CardBody>
                     <CardFooter>
@@ -99,7 +178,7 @@ class CreateNewDialogue extends React.Component {
                         <Button
                             disabled={
                                 !this.props.inputFields.reduce((preValue, curValue) => {
-                                    return !!preValue && curValue.validation(this.state[curValue.name]);
+                                    return !!preValue && this.isValid(curValue);
                                 }, true)
                             }
                             onClick={this.save}

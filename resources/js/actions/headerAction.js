@@ -6,3 +6,14 @@ export function switchGym(value) {
         value
     };
 }
+
+export function loadLoggedInCoachInfo() {
+    return {
+        type: ActionTypes.LOAD_LOGGED_IN_COACH_INFO,
+        payload: {
+            request:{
+                url:'/coach'
+            }
+        }
+    }
+}

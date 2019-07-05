@@ -15,14 +15,12 @@ import CardFooter from "-components/Card/CardFooter.jsx";
 import dashboardStyle from "-assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import * as Actions from '../../actions/coach';
+import * as Actions from '../../actions/gym';
 import "../../../sass/coach.scss"
 import CardBody from "-components/Card/CardBody";
 import LoadingLayer from "-components/LoadingLayer/LoadingLayer"
 import classNames from "classnames"
 import CreateNewDialogue from "-components/CustomDialogues/CreateNewDialogue";
-import Snackbar from "-components/Snackbar/Snackbar";
-import AddAlert from "@material-ui/icons/AddAlert";
 
 class Coach extends React.Component {
     constructor(props) {
@@ -45,43 +43,35 @@ class Coach extends React.Component {
             this.props.actions.loadCoach(nextProps.selectedGym.id);
             return true
         }
-        return nextProps.coach !== this.props.coach;
+        return nextProps.gym !== this.props.gym;
     }
 
     render() {
         const coachFields = [
             {
                 name: 'name',
-                validation: v => v.length > 0,
                 placeholder: 'Name'
             },
             {
                 name: 'email',
                 type: 'email',
-                validation: v => {
-                    if (v.length && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v)) {
-                        return true
-                    }
-                    return false
-                },
                 placeholder: 'Email'
             },
             {
                 name: 'password',
                 type: 'password',
-                validation: v => v.length >= 8, // TODO
                 placeholder: 'Password'
             }
 
         ];
         return (
             <React.Fragment>
-                {this.props.coach.loading && <LoadingLayer/>}
-                <div className={classNames({'loading': this.props.coach.loading})}>
-                    {!this.props.coach.showNewCoach &&
+                {this.props.gym.loading && <LoadingLayer/>}
+                <div className={classNames({'loading': this.props.gym.loading})}>
+                    {!this.props.gym.showNewCoach &&
                     <GridContainer>
                         {
-                            this.props.coach.coaches.map((item) => {
+                            this.props.gym.coaches.map((item) => {
                                 return (
                                     <GridItem key={item.id} xs={12} sm={6} md={6} lg={4}>
                                         <Card>
@@ -108,7 +98,7 @@ class Coach extends React.Component {
                     </GridContainer>}
                     {/* create coach dialogue */}
                     {
-                        this.props.coach.showNewCoach &&
+                        this.props.gym.showNewCoach &&
                         <CreateNewDialogue
                             onCancel={this.props.actions.cancelNewCoach}
                             onSave={(data) => {
@@ -119,15 +109,7 @@ class Coach extends React.Component {
                         />
                     }
                 </div>
-                <Snackbar
-                    place="tc"
-                    color="danger"
-                    icon={AddAlert}
-                    message={this.props.coach.errorMsg}
-                    open={!!this.props.coach.errorMsg}
-                    closeNotification={() => this.props.actions.closeErrMsg()}
-                    close
-                />
+
             </React.Fragment>
         );
     }
@@ -139,7 +121,7 @@ Coach.propTypes = {
 
 const mapStoreToProps = (store) => {
     return {
-        coach: store.coach,
+        gym: store.gym,
         selectedGym: store.setting.selectedGym
     };
 };

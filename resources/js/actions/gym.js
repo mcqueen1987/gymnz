@@ -12,6 +12,19 @@ export function cancelNewCoach() {
     }
 }
 
+/********ORDER*********/
+export function showNewOrder() {
+    return {
+        type: ActionTypes.SHOW_NEW_ORDER
+    }
+}
+export function cancelNewOrder() {
+    return {
+        type: ActionTypes.CANCEL_NEW_ORDER
+    }
+}
+
+/********LOAD COACH*********/
 export function loadCoach(gymId) {
     return {
         type: ActionTypes.LOAD_COACH,
@@ -36,8 +49,16 @@ export function createCoach(gymId, data) {
     }
 }
 
+
+/********BANNER*********/
 export function closeErrMsg(){
     return {
         type: ActionTypes.CLOSE_ERR_MSG,
+    }
+}
+
+export function closeSuccessMsg(){
+    return {
+        type: ActionTypes.CLOSE_SUCCESS_MSG,
     }
 }

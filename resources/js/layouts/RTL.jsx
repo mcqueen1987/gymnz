@@ -9,9 +9,7 @@ import "perfect-scrollbar/css/perfect-scrollbar.css";
 import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import Navbar from "-components/Navbars/Navbar.jsx";
-import Footer from "-components/Footer/Footer.jsx";
 import Sidebar from "-components/Sidebar/Sidebar.jsx";
-import FixedPlugin from "-components/FixedPlugin/FixedPlugin.jsx";
 
 import routes from "../routes.js";
 
@@ -118,16 +116,6 @@ class RTL extends React.Component {
           ) : (
             <div className={classes.map}>{switchRoutes}</div>
           )}
-          {this.getRoute() ? <Footer /> : null}
-          <FixedPlugin
-            handleImageClick={this.handleImageClick}
-            handleColorClick={this.handleColorClick}
-            bgColor={this.state["color"]}
-            bgImage={this.state["image"]}
-            handleFixedClick={this.handleFixedClick}
-            fixedClasses={this.state.fixedClasses}
-            rtlActive
-          />
         </div>
       </div>
     );

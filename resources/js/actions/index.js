@@ -1,3 +1,4 @@
 export * from './headerAction';
 export * from './organization';
-export * from './coach';
+export * from './gym';
+export * from './order';

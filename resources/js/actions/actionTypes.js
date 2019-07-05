@@ -29,6 +29,9 @@ export const CANCEL_NEW_GYM = 'CANCEL_NEW_GYM';
 
 /**********HEADER************/
 export const SWITCH_GYM = 'SWITCH_GYM';
+export const LOAD_LOGGED_IN_COACH_INFO = 'LOAD_LOGGED_IN_COACH_INFO';
+export const LOAD_LOGGED_IN_COACH_INFO_SUCCESS = 'LOAD_LOGGED_IN_COACH_INFO_SUCCESS';
+export const LOAD_LOGGED_IN_COACH_INFO_FAIL = 'LOAD_LOGGED_IN_COACH_INFO_FAIL';
 
 /**********COACH************/
 export const SHOW_NEW_COACH = 'SHOW_NEW_COACH';
@@ -41,3 +44,11 @@ export const LOAD_COACH_SUCCESS = 'LOAD_COACH_SUCCESS';
 export const LOAD_COACH_FAIL = 'LOAD_COACH_FAIL';
 
 export const CLOSE_ERR_MSG = 'CLOSE_ERR_MSG';
+export const CLOSE_SUCCESS_MSG = 'CLOSE_SUCCESS_MSG';
+
+/**********ORDER************/
+export const CREATE_ORDER = 'CREATE_ORDER';
+export const CREATE_ORDER_SUCCESS = 'CREATE_ORDER_SUCCESS';
+export const CREATE_ORDER_FAIL = 'CREATE_ORDER_FAIL';
+export const SHOW_NEW_ORDER = 'SHOW_NEW_ORDER';
+export const CANCEL_NEW_ORDER = 'CANCEL_NEW_ORDER';

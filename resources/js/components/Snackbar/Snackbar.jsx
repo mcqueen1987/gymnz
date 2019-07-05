@@ -19,6 +19,8 @@ function Snackbar({ ...props }) {
     icon,
     place,
     open,
+    autoHideDuration,
+    onClose,
     rtlActive
   } = props;
   var action = [];
@@ -50,6 +52,8 @@ function Snackbar({ ...props }) {
             : "right"
       }}
       open={open}
+      autoHideDuration = {autoHideDuration || 0}
+      onClose = {onClose || null}
       message={
         <div>
           {icon !== undefined ? <props.icon className={classes.icon} /> : null}

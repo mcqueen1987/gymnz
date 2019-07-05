@@ -1,24 +1,34 @@
 import * as ActionTypes from '../actions/actionTypes';
 
 const initState = {
+    // coach related
     coaches: [],
     showNewCoach: false,
+    showNewOrder: false,
     loading: false,
     errorMsg: '',
+    successMsg: '',
+
+    // order related
 };
 
-const NonAction = {type: "NO_ACTION"};
+const NonAction = { type: "NO_ACTION" };
 
-const coach = (state = initState, action=NonAction) => {
+const gym = (state = initState, action = NonAction) => {
     switch (action.type) {
 
         case ActionTypes.SHOW_NEW_COACH:
-            return Object.assign({}, state, {showNewCoach: true});
+            return Object.assign({}, state, { showNewCoach: true });
         case ActionTypes.CANCEL_NEW_COACH:
-            return Object.assign({}, state, {showNewCoach: false});
+            return Object.assign({}, state, { showNewCoach: false });
+
+        case ActionTypes.SHOW_NEW_ORDER:
+            return Object.assign({}, state, { showNewOrder: true });
+        case ActionTypes.CANCEL_NEW_ORDER:
+            return Object.assign({}, state, { showNewOrder: false });
 
         case ActionTypes.LOAD_COACH:
-            return Object.assign({}, state, {loading: true});
+            return Object.assign({}, state, { loading: true });
         case ActionTypes.LOAD_COACH_SUCCESS:
             return Object.assign({}, state, {
                 loading: false,
@@ -30,7 +40,7 @@ const coach = (state = initState, action=NonAction) => {
                 loading: false
             });
         case ActionTypes.CREATE_COACH:
-            return Object.assign({}, state, {loading: true});
+            return Object.assign({}, state, { loading: true });
         case ActionTypes.CREATE_COACH_SUCCESS:
             return Object.assign({}, state, {
                 showNewCoach: false,
@@ -46,11 +56,28 @@ const coach = (state = initState, action=NonAction) => {
             return Object.assign({}, state, {
                 errorMsg: '',
             });
+        case ActionTypes.CLOSE_SUCCESS_MSG:
+            return Object.assign({}, state, {
+                successMsg: '',
+            });
+
+        case ActionTypes.CREATE_ORDER:
+            return Object.assign({}, state, { loading: true });
+        case ActionTypes.CREATE_ORDER_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                showNewOrder: false,
+                successMsg: 'Create order successed',
+            });
+        case ActionTypes.CREATE_ORDER_FAIL:
+            return Object.assign({}, state, {
+                errorMsg: 'Create order failed, please try again',
+                loading: false
+            });
 
         default:
             return state;
     }
-    return state;
 };
 
-export default coach;
+export default gym;
