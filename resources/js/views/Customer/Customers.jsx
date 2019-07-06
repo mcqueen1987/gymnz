@@ -15,7 +15,12 @@ class Customers extends React.Component {
 
     getCustomerListData = () => {
         return this.props.gym.customers.map(c => [c.name, c.email, c.sex ? 'M' : 'F']);
-    }
+    };
+
+    onRowClick = (row) => {
+        let customerId = this.props.gym.customers[row].id;
+        this.props.history.push({pathname: `customer/${customerId}`});
+    };
 
     render() {
         const header = ['Name', 'Email', 'Sex'];
@@ -25,6 +30,7 @@ class Customers extends React.Component {
                         <Table classes={{ tableResponsive: 'no-margin-top' }}
                             tableHeaderColor="primary"
                             tableHead={header}
+                            onRowClick={this.onRowClick}
                             tableData={this.getCustomerListData()}
                         />
                     </CardBody>

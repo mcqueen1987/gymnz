@@ -85,7 +85,7 @@ class OrderController extends Controller
         $order->coach()->associate($coach);
         // 6. return
         $order->save();
-        return $order;
+        return response()->json($order, 201);;
     }
 
     /**
@@ -131,5 +131,20 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    public function getCustomerOrders(Request $request, $customerId)
+    {
+        $query = Order::with('coach.user')
+            ->where('customer_id', '=', $customerId);
+        if($request->input('gym')){
+            $query = $query->where('gym_id', '=',$request->input('gym'));
+        }
+        $ret = $query->get();
+        if($ret) {
+            return response()->json($ret, 200);
+        }
+        return response()->json(array('message' => $ret), 500);
     }
 }

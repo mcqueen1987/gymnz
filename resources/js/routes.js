@@ -24,9 +24,7 @@ import LinkedDashboard from "-views/Dashboard/Dashboard.jsx";
 import Organization from "-views/Organization/Organization.jsx";
 import LinkedCoach from "-views/Coach/Coach";
 import Customers from "-views/Customer/Customers";
-
-// core components/views for RTL layout
-import RTLPage from "-views/RTLPage/RTLPage.jsx";
+import Customer from "-views/Customer/Customer"
 import GymSettings from "-views/GymSetting/GymSettings";
 
 const dashboardRoutes = [
@@ -67,10 +65,18 @@ const dashboardRoutes = [
         name: "Customer",
         rtlName: "",
         icon: OrganizationIcon,
-        component: ()=><Customers/>,
+        component: props => <Customers {...props}/>,
+        layout: "/admin"
+    },{
+        path: "/customer/:id",
+        name: "CustomerPage",
+        rtlName: "",
+        hideMenu: true,
+        icon: OrganizationIcon,
+        // props is to pass the url
+        component: props => <Customer {...props}/>,
         layout: "/admin"
     },
-    
     // {
     //     path: "/user",
     //     name: "User Profile",
