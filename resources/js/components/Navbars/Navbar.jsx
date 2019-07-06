@@ -18,7 +18,7 @@ import headerStyle from "-assets/jss/material-dashboard-react/components/headerS
 
 function Header({ ...props }) {
   function makeBrand() {
-    var name;
+    var name = '';
     props.routes.map((prop, key) => {
       if (prop.layout + prop.path === props.location.pathname) {
         name = props.rtlActive ? prop.rtlName : prop.name;

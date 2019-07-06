@@ -4,6 +4,9 @@ const initState = {
     // data
     coaches: [],
     customers: [],
+    selectedCustomer: {
+        order: []
+    },
 
     // dialogue
     showNewCoach: false,
@@ -95,6 +98,43 @@ const gym = (state = initState, action = NonAction) => {
                 loading: false
             });
 
+        case ActionTypes.LOAD_GYM_AVAILABLE_SLOT:
+            return Object.assign({}, state, { loading: true });
+        case ActionTypes.LOAD_GYM_AVAILABLE_SLOT_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+            });
+        case ActionTypes.LOAD_GYM_AVAILABLE_SLOT_FAIL:
+            return Object.assign({}, state, {
+                errorMsg: 'Load gym timetable failed',
+                loading: false
+            });
+
+        case ActionTypes.LOAD_CUSTOMER_COURSE_BALANCE:
+            // do nothing
+            return state;
+        case ActionTypes.LOAD_CUSTOMER_COURSE_BALANCE_SUCCESS:
+            // TODO
+            return state;
+        case ActionTypes.LOAD_CUSTOMER_COURSE_BALANCE_FAIL:
+            return Object.assign({}, state, {
+                errorMsg: 'Load customer balance failed',
+            });
+
+        case ActionTypes.LOAD_CUSTOMER_ORDERS:
+            // do nothing
+            return state;
+        case ActionTypes.LOAD_CUSTOMER_ORDERS_SUCCESS:
+            {
+                let selectedCustomer = { ...state.selectedCustomer }
+                selectedCustomer.orders = action.payload.data
+                // TODO
+                return Object.assign({}, state, { selectedCustomer });
+            }
+        case ActionTypes.LOAD_CUSTOMER_ORDERS_FAIL:
+            return Object.assign({}, state, {
+                errorMsg: 'Load customer orders failed',
+            });
         default:
             return state;
     }
