@@ -44,6 +44,10 @@ class Organization extends React.Component {
             this.props.actions.showNewGym();
         });
     };
+    deleteOrg = (org) => () => {
+        this.props.actions.deleteOrg(org);
+        
+    };
 
     componentWillMount = () => {
         this.props.actions.loadOrg();
@@ -126,6 +130,9 @@ class Organization extends React.Component {
                                                     </div>
                                                     <Button size="sm" onClick={this.showAddGym(item)}>
                                                         Add Gym
+                                                    </Button>
+                                                    <Button size="sm" onClick={this.deleteOrg(item.id)}>
+                                                        Delete Org
                                                     </Button>
                                                 </CardFooter>
                                             </Card>
