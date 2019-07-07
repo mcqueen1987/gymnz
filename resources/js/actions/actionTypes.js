@@ -44,7 +44,9 @@ export const CREATE_COACH_FAIL = 'CREATE_COACH_FAIL';
 export const LOAD_COACH = 'LOAD_COACH';
 export const LOAD_COACH_SUCCESS = 'LOAD_COACH_SUCCESS';
 export const LOAD_COACH_FAIL = 'LOAD_COACH_FAIL';
-
+export const DELETE_COACH = 'DELETE_COACH';
+export const DELETE_COACH_SUCCESS = 'DELETE_COACH_SUCCESS';
+export const DELETE_COACH_FAIL = 'DELETE_COACH_FAIL';
 
 /**********ORDER************/
 export const CREATE_ORDER = 'CREATE_ORDER';

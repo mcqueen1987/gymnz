@@ -23,11 +23,14 @@ class CoachController extends Controller
      */
     public function index($gym_id)
     {
-        $ret = Coach::with('user')->where("gym_id", "=", $gym_id)->get();
-        if($ret){
+        $ret = Coach::with('user')
+            ->where("gym_id", "=", $gym_id)
+            ->where("status", "=", "0")
+            ->get();
+        if ($ret) {
             return response()->json($ret, 200);
         }
-        return response()->json(array('message'=>'fail'), 500);
+        return response()->json(array('message' => 'fail'), 500);
 
     }
 
@@ -51,7 +54,7 @@ class CoachController extends Controller
     {
         $userId = Auth::User()->id;
 
-        $coachData = $request->only('name', 'phone', 'password','sex');
+        $coachData = $request->only('name', 'phone', 'password', 'sex');
 
         // convert phone to email
         $customerEmail = $coachData['phone'] . self::EMAIL_SUFFIX;
@@ -99,8 +102,7 @@ class CoachController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
      */
     public function edit($id)
     {
@@ -110,27 +112,42 @@ class CoachController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $gymId
+     * @param $coachId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $gymId, $coachId)
     {
-        //
+        $coach = new Coach();
+        $coachItem =  $coach::find($coachId);
+        if (!$coachItem) {
+            return response()->json(array('message' => 'can not find coach_id' . $coachId), 500);
+        }
+        $success = $coach::where('id', $coachId)->update(
+            [
+                'status'=> $request['status']
+            ]
+        );
+        if ($success) {
+            return response()->json($coachItem, 200);
+        }
+        return response()->json(array('message' => 'fail'), 500);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|string
+     * @throws \Exception
      */
     public function destroy($id)
     {
         //
     }
 
-    public function getCoachInfoByUserId(){
+    public function getCoachInfoByUserId()
+    {
         $userId = Auth::User()->id;
 
         $ret = Coach::with('user')->where("user_id", "=", $userId)->get();

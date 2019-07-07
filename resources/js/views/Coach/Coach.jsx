@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
 import Button from "-components/CustomButtons/Button.jsx";
+import ButtonDelete from "-components/CustomButtons/ButtonDelete.jsx";
 import Add from "@material-ui/icons/Add"
 // core components
 import GridItem from "-components/Grid/GridItem.jsx";
@@ -37,6 +38,10 @@ class Coach extends React.Component {
         this.props.actions.showNewCoach();
     };
 
+    showRemoveCoach = () => {
+        this.props.actions.showRemoveCoach();
+    };
+
     shouldComponentUpdate(nextProps) {
         if (nextProps.selectedGym.id && nextProps.selectedGym.id !== this.props.selectedGym.id) {
             this.props.actions.loadCoach(nextProps.selectedGym.id);
@@ -44,7 +49,6 @@ class Coach extends React.Component {
         }
         return nextProps.gym !== this.props.gym;
     }
-
     render() {
         const coachFields = [{
                 name: 'name',
@@ -62,6 +66,7 @@ class Coach extends React.Component {
                 type: 'password',
                 placeholder: 'Password'
             }];
+
         return (
             <React.Fragment>
                 <div className={classNames({ 'loading': this.props.gym.loading })}>
@@ -83,6 +88,20 @@ class Coach extends React.Component {
                                                 <CardFooter stats style={{ marginTop: 0 }}>
                                                     <div>
                                                         {item.user.sex ? 'Male' : 'Female' }
+                                                    </div>
+                                                    <div>
+                                                        <ButtonDelete
+                                                            color="white" size='sm'
+                                                            onSave={() => {
+                                                                let data = {
+                                                                    status: '1' // deleted coach
+                                                                };
+                                                                this.props.actions.deleteCoach(this.props.selectedGym.id, item.id, data);
+                                                            }}
+                                                            title="Delete Coach"
+                                                        >
+                                                            Delete
+                                                        </ButtonDelete>
                                                     </div>
                                                 </CardFooter>
                                             </Card>
