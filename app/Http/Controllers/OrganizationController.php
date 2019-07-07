@@ -24,7 +24,12 @@ class OrganizationController extends Controller
     public function index()
     {
         $userId = Auth::User()->id;
-        $orgList = Organization::where('create_by', '=', $userId)->get();
+        $conds = array(
+            'create_by' => $userId,
+            'status' => 1,
+        );
+        //$orgList = Organization::where('create_by', '=', $userId)->get();
+        $orgList = Organization::where($conds)->get();
         if ($orgList) {
             return response()->json($orgList, 200);
         } else {
@@ -103,6 +108,20 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $org = Organization::find($id);
+        if(!$org){
+            return response()->json(array('message' => 'org is not exist'), 500);
+        }
+
+        $gyms = Organization::find($id)->gyms()->count();
+        if ($gyms) {
+            return response()->json(array('message' => 'cannot delete org'), 500);
+        }
+        
+        $ret = Organization::where("id", $id)->update(['status' => 0]);
+        if (!$ret) {
+            return response()->json(array('message' => 'fail'), 500);
+        }
+        return response()->json($org, 200);
     }
 }
