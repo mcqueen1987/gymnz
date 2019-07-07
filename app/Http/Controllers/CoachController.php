@@ -23,18 +23,19 @@ class CoachController extends Controller
      */
     public function index($gym_id)
     {
-        $ret = Coach::with('user')->where("gym_id", "=", $gym_id)->get();
-        if($ret){
+        $ret = Coach::with('user')
+            ->where("gym_id", "=", $gym_id)
+            ->where("status", "=", "1")
+            ->get();
+        if ($ret) {
             return response()->json($ret, 200);
         }
-        return response()->json(array('message'=>'fail'), 500);
+        return response()->json(array('message' => 'fail'), 500);
 
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -51,7 +52,7 @@ class CoachController extends Controller
     {
         $userId = Auth::User()->id;
 
-        $coachData = $request->only('name', 'phone', 'password','sex');
+        $coachData = $request->only('name', 'phone', 'password', 'sex');
 
         // convert phone to email
         $customerEmail = $coachData['phone'] . self::EMAIL_SUFFIX;
@@ -88,8 +89,7 @@ class CoachController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
      */
     public function show($id)
     {
@@ -99,8 +99,7 @@ class CoachController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
      */
     public function edit($id)
     {
@@ -110,9 +109,8 @@ class CoachController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param $id
      */
     public function update(Request $request, $id)
     {
@@ -122,15 +120,26 @@ class CoachController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $gymId
+     * @param $coachId
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy($gymId, $coachId)
     {
-        //
+        $coachItem = Coach::find($coachId);
+        if (empty($coachItem)) {
+            return response()->json(array('message' => 'can not find coach_id ' . $coachId), 500);
+        }
+        $coachItem->status = 0;
+        $success = $coachItem->save();
+        if ($success) {
+            return response()->json($coachItem, 200);
+        }
+        return response()->json(array('message' => 'fail'), 500);
     }
 
-    public function getCoachInfoByUserId(){
+    public function getCoachInfoByUserId()
+    {
         $userId = Auth::User()->id;
 
         $ret = Coach::with('user')->where("user_id", "=", $userId)->get();
