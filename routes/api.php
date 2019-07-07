@@ -32,6 +32,7 @@ Route::group([
     Route::get('coach', 'CoachController@getCoachInfoByUserId');
 
     Route::get('gym/{gym}/customer', 'GymController@getCustomerList');
+    Route::get('gym/{gym}/available', 'GymController@getAvailableTime');
 
     Route::get('user/{user}/coursebalance', 'OrderController@getCustomerCourseBalance');
     Route::get('user/{user}/orders', 'OrderController@getCustomerOrders');
@@ -40,4 +41,5 @@ Route::group([
     Route::resource('gym', 'GymController');
     Route::resource('gym.coach', 'CoachController');
     Route::resource('gym.order', 'OrderController');
+    Route::resource('gym.schedule', 'ScheduleController');
 });

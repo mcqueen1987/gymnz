@@ -1,4 +1,5 @@
 import * as ActionTypes from './actionTypes'
+import { Action } from 'rxjs/internal/scheduler/Action';
 
 /********COACH*********/
 export function showNewCoach() {
@@ -63,7 +64,7 @@ export function loadCustomer(gymId) {
 
 /********WORKLOAD*********/
 // params = { date: '20190203'}
-export function loadAvailableByDate(gymId, params) {
+export function loadAvailableSlotByDate(gymId, params) {
     return {
         type: ActionTypes.LOAD_GYM_AVAILABLE_SLOT,
         payload: {
@@ -77,6 +78,27 @@ export function loadAvailableByDate(gymId, params) {
 
 export function loadWorkload(gymId, date) {
 
+}
+
+/********SCHEDULE*********/
+export function updatePendingSchedule(data) {
+    return  {
+        type: ActionTypes.UPDATE_PENDING_SCHEDULE,
+        data,
+    }
+}
+
+export function createSchedule(gymId, data) {
+    return {
+        type: ActionTypes.CREATE_SCHEDULE,
+        payload: {
+            request: {
+                method: 'post',
+                url: '/gym/' + gymId + '/schedule',
+                data,
+            }
+        }
+    };
 }
 
 /********CUSTOMER DETAIL*********/

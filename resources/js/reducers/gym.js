@@ -5,7 +5,9 @@ const initState = {
     coaches: [],
     customers: [],
     selectedCustomer: {
-        order: []
+        orders: [],
+        coachesSlots: [],
+        pendingSchedule: null,
     },
 
     // dialogue
@@ -16,8 +18,6 @@ const initState = {
     loading: false,
     errorMsg: '',
     successMsg: '',
-
-    // order related
 };
 
 const NonAction = { type: "NO_ACTION" };
@@ -101,9 +101,14 @@ const gym = (state = initState, action = NonAction) => {
         case ActionTypes.LOAD_GYM_AVAILABLE_SLOT:
             return Object.assign({}, state, { loading: true });
         case ActionTypes.LOAD_GYM_AVAILABLE_SLOT_SUCCESS:
-            return Object.assign({}, state, {
-                loading: false,
-            });
+            {
+                let selectedCustomer = { ...state.selectedCustomer }
+                selectedCustomer.coachesSlots = action.payload.data;
+                return Object.assign({}, state, {
+                    selectedCustomer,
+                    loading: false,
+                });
+            }
         case ActionTypes.LOAD_GYM_AVAILABLE_SLOT_FAIL:
             return Object.assign({}, state, {
                 errorMsg: 'Load gym timetable failed',
@@ -128,12 +133,42 @@ const gym = (state = initState, action = NonAction) => {
             {
                 let selectedCustomer = { ...state.selectedCustomer }
                 selectedCustomer.orders = action.payload.data
-                // TODO
                 return Object.assign({}, state, { selectedCustomer });
             }
         case ActionTypes.LOAD_CUSTOMER_ORDERS_FAIL:
             return Object.assign({}, state, {
                 errorMsg: 'Load customer orders failed',
+            });
+
+        case ActionTypes.UPDATE_PENDING_SCHEDULE:
+            {
+                let selectedCustomer = { ...state.selectedCustomer };
+                selectedCustomer.pendingSchedule = action.data;
+                return Object.assign({}, state, { selectedCustomer });
+            }
+        case ActionTypes.CREATE_SCHEDULE:
+            return Object.assign({}, state, { loading: true });
+        case ActionTypes.CREATE_SCHEDULE_SUCCESS:
+            {
+                let updatedSelectedCustomer = { ...state.selectedCustomer };
+                let { start, end, coach_id } = action.payload.data;
+                updatedSelectedCustomer.coachesSlots.forEach(c => {
+                    if (c.id === coach_id) {
+                        c.available = c.available.filter(h => h < start || h > end);
+                    }
+                })
+                // clear pendingSchedule when save successfully
+                updatedSelectedCustomer.pendingSchedule = null;
+                return Object.assign({}, state, {
+                    selectedCustomer: updatedSelectedCustomer,
+                    successMsg: 'Schedule save successed',
+                    loading: false
+                });
+            }
+        case ActionTypes.CREATE_SCHEDULE_FAIL:
+            return Object.assign({}, state, {
+                loading: false,
+                errorMsg: 'Create schedule failed',
             });
         default:
             return state;
