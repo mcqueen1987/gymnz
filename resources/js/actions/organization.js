@@ -34,7 +34,17 @@ export function createOrg(data) {
         }
     }
 }
-
+export function deleteOrg(orgId) {
+    return {
+        type: ActionTypes.DELETE_ORG,
+        payload: {
+            request:{
+                method: 'delete',
+                url:`/org/${orgId}`,
+            }
+        }
+    }
+}
 /********GYM*********/
 export function cancelNewGym() {
     return {

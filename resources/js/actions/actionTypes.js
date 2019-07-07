@@ -13,6 +13,10 @@ export const CREATE_ORG = 'CREATE_ORG';
 export const CREATE_ORG_SUCCESS = 'CREATE_ORG_SUCCESS';
 export const CREATE_ORG_FAIL = 'LOAD_ORG_FAIL';
 
+export const DELETE_ORG = 'DELETE_ORG';
+export const DELETE_ORG_SUCCESS = 'DELETE_ORG_SUCCESS';
+export const DELETE_ORG_FAIL = 'DELETE_ORG_FAIL';
+
 /**********GYM************/
 export const LOAD_GYM = 'LOAD_GYM';
 export const LOAD_GYM_SUCCESS = 'LOAD_GYM_SUCCESS';

@@ -86,6 +86,19 @@ const organization = (state = initState, action=NonAction) => {
                 errorMsg: 'Create organization failed, please try again',
             });
 
+        case ActionTypes.DELETE_ORG:
+            return Object.assign({}, state, {loading:true});
+        case ActionTypes.DELETE_ORG_SUCCESS:
+            return Object.assign({}, state,{
+                showNewOrg: false,
+                loading:false,
+            });
+        case ActionTypes.DELETE_ORG_FAIL:
+            return Object.assign({}, state, {
+                loading: false,
+                errorMsg: 'Delete organization failed, please try again',
+            });
+
         case ActionTypes.CLOSE_ERR_MSG:
             return Object.assign({}, state, {
                 errorMsg: '',
