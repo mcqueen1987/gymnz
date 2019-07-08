@@ -5,7 +5,7 @@ import GridContainer from "-components/Grid/GridContainer.jsx";
 import * as utils from "-utils";
 import { Tabs, Tab } from "@material-ui/core";
 import * as color from "-color"
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 
 const PrimaryTabs = withStyles({

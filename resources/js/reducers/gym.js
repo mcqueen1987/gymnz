@@ -4,7 +4,8 @@ const initState = {
     // data
     coaches: [],
     customers: [],
-    selectedCustomer: {
+    customerPage: {
+        customerBalance: { total: 0, booked: 0 },
         orders: [],
         coachesSlots: [],
         pendingSchedule: null,
@@ -102,10 +103,10 @@ const gym = (state = initState, action = NonAction) => {
             return Object.assign({}, state, { loading: true });
         case ActionTypes.LOAD_GYM_AVAILABLE_SLOT_SUCCESS:
             {
-                let selectedCustomer = { ...state.selectedCustomer }
-                selectedCustomer.coachesSlots = action.payload.data;
+                let customerPage = { ...state.customerPage }
+                customerPage.coachesSlots = action.payload.data;
                 return Object.assign({}, state, {
-                    selectedCustomer,
+                    customerPage,
                     loading: false,
                 });
             }
@@ -119,8 +120,11 @@ const gym = (state = initState, action = NonAction) => {
             // do nothing
             return state;
         case ActionTypes.LOAD_CUSTOMER_COURSE_BALANCE_SUCCESS:
-            // TODO
-            return state;
+            {
+                let customerPage = { ...state.customerPage }
+                customerPage.customerBalance = action.payload.data;
+                return Object.assign({}, state, { customerPage });;
+            }
         case ActionTypes.LOAD_CUSTOMER_COURSE_BALANCE_FAIL:
             return Object.assign({}, state, {
                 errorMsg: 'Load customer balance failed',
@@ -131,9 +135,9 @@ const gym = (state = initState, action = NonAction) => {
             return state;
         case ActionTypes.LOAD_CUSTOMER_ORDERS_SUCCESS:
             {
-                let selectedCustomer = { ...state.selectedCustomer }
-                selectedCustomer.orders = action.payload.data
-                return Object.assign({}, state, { selectedCustomer });
+                let customerPage = { ...state.customerPage }
+                customerPage.orders = action.payload.data
+                return Object.assign({}, state, { customerPage });
             }
         case ActionTypes.LOAD_CUSTOMER_ORDERS_FAIL:
             return Object.assign({}, state, {
@@ -142,15 +146,15 @@ const gym = (state = initState, action = NonAction) => {
 
         case ActionTypes.UPDATE_PENDING_SCHEDULE:
             {
-                let selectedCustomer = { ...state.selectedCustomer };
-                selectedCustomer.pendingSchedule = action.data;
-                return Object.assign({}, state, { selectedCustomer });
+                let customerPage = { ...state.customerPage };
+                customerPage.pendingSchedule = action.data;
+                return Object.assign({}, state, { customerPage });
             }
         case ActionTypes.CREATE_SCHEDULE:
             return Object.assign({}, state, { loading: true });
         case ActionTypes.CREATE_SCHEDULE_SUCCESS:
             {
-                let updatedSelectedCustomer = { ...state.selectedCustomer };
+                let updatedSelectedCustomer = { ...state.customerPage };
                 let { start, end, coach_id } = action.payload.data;
                 updatedSelectedCustomer.coachesSlots.forEach(c => {
                     if (c.id === coach_id) {
@@ -159,8 +163,10 @@ const gym = (state = initState, action = NonAction) => {
                 })
                 // clear pendingSchedule when save successfully
                 updatedSelectedCustomer.pendingSchedule = null;
+                // add booked
+                updatedSelectedCustomer.customerBalance.booked ++;
                 return Object.assign({}, state, {
-                    selectedCustomer: updatedSelectedCustomer,
+                    customerPage: updatedSelectedCustomer,
                     successMsg: 'Schedule save successed',
                     loading: false
                 });

@@ -138,13 +138,31 @@ class OrderController extends Controller
     {
         $query = Order::with('coach.user')
             ->where('customer_id', '=', $customerId);
-        if($request->input('gym')){
-            $query = $query->where('gym_id', '=',$request->input('gym'));
+        if ($request->input('gym')) {
+            $query = $query->where('gym_id', '=', $request->input('gym'));
         }
         $ret = $query->get();
-        if($ret) {
+        if ($ret) {
             return response()->json($ret, 200);
         }
         return response()->json(array('message' => $ret), 500);
+    }
+
+
+    public function getCustomerCourseBalance(Request $request, $customerId)
+    {
+        $query = Order::with('coach.user')
+            ->where('customer_id', '=', $customerId);
+        if ($request->input('gym')) {
+            $query = $query->where('gym_id', '=', $request->input('gym'));
+        }
+        $orders = $query->get();
+        $ret = ['total' => 0, 'booked' => 0];
+        // calc
+        foreach ($orders as $order) {
+            $ret['total'] += $order->course_amount;
+            $ret['booked'] += $order->booked_amount;
+        }
+        return response()->json($ret, 200);
     }
 }

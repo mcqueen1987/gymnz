@@ -128,7 +128,6 @@ class GymController extends Controller
 
     public function getAvailableTime(Request $request, $id)
     {
-
         $date = $request->input('date');
         if (empty($date)) {
             return response()->json(array('message' => 'missing date'), 500);
@@ -141,7 +140,10 @@ class GymController extends Controller
         // build available hours according to working hours
         $coaches = Coach::with('user')->where('gym_id', '=', $id)->get();
         // get schedules
-        $schedules = Schedule::where('gym_id', $id)->get();
+        $schedules = Schedule::where([
+            'gym_id' => $id,
+            'date' => $date,
+        ])->get();
         foreach ($coaches as $coach) {
             $coach['available'] = $workingHours;
             foreach ($schedules as $schedule) {
