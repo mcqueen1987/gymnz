@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Gym;
 use App\Order;
+use App\Coach;
+use App\Schedule;
 use Auth;
 
 use http\Env\Response;
@@ -122,5 +124,36 @@ class GymController extends Controller
             return response()->json($customers, 200);
         }
         return response()->json(array('message' => 'fail'), 500);
+    }
+
+    public function getAvailableTime(Request $request, $id)
+    {
+
+        $date = $request->input('date');
+        if (empty($date)) {
+            return response()->json(array('message' => 'missing date'), 500);
+        }
+
+        // get workinghours
+        $gym = Gym::find($id);
+        $workingHours = range($gym->setting['workingHours']['min'], $gym->setting['workingHours']['max'] - 1);
+
+        // build available hours according to working hours
+        $coaches = Coach::with('user')->where('gym_id', '=', $id)->get();
+        // get schedules
+        $schedules = Schedule::where('gym_id', $id)->get();
+        foreach ($coaches as $coach) {
+            $coach['available'] = $workingHours;
+            foreach ($schedules as $schedule) {
+                if ($schedule->coach_id === $coach['id']) {
+                    // filter scheduled hours
+                    $coach['available'] = array_values(array_filter($coach['available'], function ($h) use ($schedule) {
+                        return $h < $schedule->start || $h > $schedule->end;
+                    }));
+                }
+            }
+        }
+
+        return response()->json($coaches, 200);
     }
 }
