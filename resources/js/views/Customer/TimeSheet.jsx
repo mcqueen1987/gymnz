@@ -18,7 +18,6 @@ const PrimaryTabs = withStyles({
 class TimeSheet extends React.Component {
     constructor(props) {
         super(props);
-        this.TimeStrMap = utils.getTimeStrMap();
     }
 
     getTimeCell = (index, disabled, active) => {
@@ -34,7 +33,7 @@ class TimeSheet extends React.Component {
             key={index}
             classes={{ grid }}
             onClick={() => { this.props.onSelect(index) }}>
-            {this.TimeStrMap[index]}
+            {utils.getTimeStr(index)}
         </GridItem>;
     };
 

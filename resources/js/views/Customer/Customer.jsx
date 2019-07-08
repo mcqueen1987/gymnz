@@ -7,26 +7,43 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from "-components/CustomTabs/CustomTabs.jsx";
 import Table from "-components/Table/Table.jsx";
 import Scheduling from "./Scheduling";
+import Badge from "@material-ui/core/Badge";
+import * as utils from '-utils';
 
 import 'dayjs/locale/zh-cn'
 
 class Customer extends React.Component {
     constructor(props) {
         super(props);
+        this.customerId = parseInt(this.props.match.params.id);
     }
 
     getBookTab = () => {
-        return <Scheduling {...this.props} customerId={parseInt(this.props.match.params.id)} />
+        return <Scheduling {...this.props} customerId={this.customerId} />
     };
 
     getOrdersTab = () => {
-
         let orders = this.props.gym.customerPage.orders;
         if (!orders) {
             return <p>No Orders</p>;
         }
         let header = ['Price', 'Booked/Total', 'Coach', 'Created'];
         let tableData = orders.map(r => [r.price + '', r.booked_amount + ' / ' + r.course_amount, r.coach.user.name, r.created_at]);
+
+        return <Table classes={{ tableResponsive: 'no-margin-top' }}
+            tableHeaderColor='primary'
+            tableHead={header}
+            tableData={tableData}
+        />;
+    };
+
+    getUnfinishedTab = () => {
+        let booked = this.props.gym.customerPage.schedules.booked;
+        if (!booked) {
+            return <p>No unfinished schedule</p>;
+        }
+        let header = ['Date', 'Time', 'Coach'];
+        let tableData = booked.map(r => [r.date, utils.getTimeStr(r.start), r.coach.user.name]);
 
         return <Table classes={{ tableResponsive: 'no-margin-top' }}
             tableHeaderColor='primary'
@@ -58,6 +75,7 @@ class Customer extends React.Component {
 
     render() {
         let {booked, total} = this.props.gym.customerPage.customerBalance;
+        let unfinishedTabHeader = <Badge className="customer-tab-badge" color="secondary" badgeContent={this.props.gym.customerPage.schedules.booked.length}>Unfinished</Badge>;
         return <Paper square>
             <Tabs
                 title={booked + '/' + total}
@@ -69,7 +87,10 @@ class Customer extends React.Component {
                 }, {
                     tabName: "Orders",
                     tabContent: this.getOrdersTab(),
-                },
+                },  {
+                    tabName: unfinishedTabHeader,
+                    tabContent: this.getUnfinishedTab(),
+                }
                 ]}
             />
         </Paper>

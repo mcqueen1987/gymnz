@@ -9,6 +9,10 @@ const initState = {
         orders: [],
         coachesSlots: [],
         pendingSchedule: null,
+        schedules: {
+            booked: [],
+            finished: [],
+        }
     },
 
     // dialogue
@@ -163,8 +167,11 @@ const gym = (state = initState, action = NonAction) => {
                 })
                 // clear pendingSchedule when save successfully
                 updatedSelectedCustomer.pendingSchedule = null;
-                // add booked
-                updatedSelectedCustomer.customerBalance.booked ++;
+                // add booked count
+                updatedSelectedCustomer.customerBalance.booked++;
+                // add booked schedule
+                updatedSelectedCustomer.schedules.booked.push(action.payload.data);
+
                 return Object.assign({}, state, {
                     customerPage: updatedSelectedCustomer,
                     successMsg: 'Schedule save successed',
@@ -176,6 +183,21 @@ const gym = (state = initState, action = NonAction) => {
                 loading: false,
                 errorMsg: 'Create schedule failed',
             });
+
+        case ActionTypes.LOAD_CUSTOMER_SCHEDULE:
+            // do nothing
+            return state;
+        case ActionTypes.LOAD_CUSTOMER_SCHEDULE_SUCCESS:
+            {
+                let customerPage = { ...state.customerPage };
+                customerPage.schedules.booked = action.payload.data.filter(s => s.status === 1);
+                customerPage.schedules.finished = action.payload.data.filter(s => s.status === 2);
+                return Object.assign({}, state, { customerPage });;
+            }
+        case ActionTypes.LOAD_CUSTOMER_SCHEDULE_FAIL:
+            return Object.assign({}, state, {
+                errorMsg: 'Load customer schedule failed',
+            });;
         default:
             return state;
     }

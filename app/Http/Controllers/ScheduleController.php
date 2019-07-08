@@ -17,9 +17,24 @@ class ScheduleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, $id)
     {
-        //
+        // querystring [date, customer, status]
+        $query = Schedule::with('coach.user')->where('gym_id', $id);
+        if($request->input['date']) {
+            $query->where('date', $request->input('date'));
+        }
+        if($request->input['customer']) {
+            $query->where('customer_id', $request->input('customer'));
+        }
+        if($request->input['status']) {
+            $query->where('status', $request->input('status'));
+        }
+        $ret = $query->get();
+        if($ret) {
+            return response()->json($ret, 200);
+        }
+        return response()->json(['message' => 'failed'], 500);
     }
 
     /**
@@ -61,7 +76,7 @@ class ScheduleController extends Controller
         $schedule->end = $scheduleData['end'];
 
         $schedule->customer()->associate(User::find($scheduleData['customer']));
-        $schedule->coach()->associate(Coach::find($scheduleData['coach']));
+        $schedule->coach()->associate(Coach::with('user')->find($scheduleData['coach']));
         $schedule->gym()->associate(Gym::find($scheduleData['gym']));
 
         $schedule->save();

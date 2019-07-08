@@ -13,7 +13,10 @@
     margin: 2px 0;
     padding: 0 !important;
 
-    &.active-0, &.active-1, &.active-2, &.active-3 {
+    &.active-0,
+    &.active-1,
+    &.active-2,
+    &.active-3 {
       color: #9c27b0;
       border-top: solid 2px #9c27b0;
       border-bottom: solid 2px #9c27b0;
@@ -33,7 +36,10 @@
     &.disabled {
       color: #999;
       background: #ececec;
-      &.active-0, &.active-1, &.active-2, &.active-3 {
+      &.active-0,
+      &.active-1,
+      &.active-2,
+      &.active-3 {
         color: #fff;
         background: #9c27b0;
       }
@@ -53,20 +59,26 @@
     margin-right: 6px;
   }
   .coach-name {
-    flex:1
+    flex: 1;
   }
 
   &.active {
     .coach-avatar {
       background: linear-gradient(60deg, #ab47bc, #8e24aa);
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0,.14), 0 7px 10px -5px rgba(156, 39, 176,.4);
+      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(156, 39, 176, 0.4);
     }
     .coach-name {
       color: #9c27b0;
-      font-weight: 600; 
+      font-weight: 600;
     }
   }
 }
 .timesheet-container {
   overflow: hidden;
+}
+.customer-tab-badge {
+  > span {
+    top: -2px;
+    right: -5px;
+  }
 }
