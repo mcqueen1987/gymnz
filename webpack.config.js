@@ -9,7 +9,8 @@ module.exports = {
             '-views': __dirname + '/resources/js/views',
             '-variables': __dirname + '/resources/js/variables',
             '-utils': __dirname + '/resources/js/utils',
-            '-color': __dirname + '/resources/js/color'
+            '-color': __dirname + '/resources/js/color',
+            '-config': __dirname + '/resources/js/config',
         }
     }
 };

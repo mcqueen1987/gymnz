@@ -9,6 +9,7 @@ import * as utils from "-utils";
 import Button from "-components/CustomButtons/Button.jsx";
 import dayjs from 'dayjs'
 import Paper from '@material-ui/core/Paper';
+import * as config from '-config';
 
 
 class Scheduling extends React.Component {
@@ -142,8 +143,8 @@ class Scheduling extends React.Component {
             return <p>No available coach found</p>;
         }
         let timeSheetParams = {
-            start: 24, // 06:00
-            end: 96,  // 24:00
+            start: config.startTime, // 06:00
+            end: config.endTime,  // 24:00
             available: this.availableTimeSlot,
             days: this.getSelectableDays(),
             selectedTimeSlot: this.state.selectedTimeSlot,

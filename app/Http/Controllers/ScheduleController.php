@@ -20,14 +20,14 @@ class ScheduleController extends Controller
     public function index(Request $request, $id)
     {
         // querystring [date, customer, status]
-        $query = Schedule::with('coach.user')->where('gym_id', $id);
-        if($request->input['date']) {
+        $query = Schedule::with(['coach.user','customer'])->where('gym_id', $id);
+        if($request->input('date')) {
             $query->where('date', $request->input('date'));
         }
-        if($request->input['customer']) {
+        if($request->input('customer')) {
             $query->where('customer_id', $request->input('customer'));
         }
-        if($request->input['status']) {
+        if($request->input('status')) {
             $query->where('status', $request->input('status'));
         }
         $ret = $query->get();

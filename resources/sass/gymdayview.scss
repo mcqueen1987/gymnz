@@ -1,0 +1,80 @@
+.gym-day-view-container {
+  .coach-name {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    color: #666;
+    >span {
+      position: relative;
+      top: 10px;
+      right: 6px;
+      background: #9c27b0;
+    }
+  }
+  .gym-day-view-header {
+    padding-right: 10px;
+    .coach-column {
+      > div {
+        padding: 0 !important;
+        text-align: center;
+      }
+    }
+  }
+  .gym-day-view-body-container {
+    padding-top: 20px;
+    padding-right: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+    box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2) inset;
+    .time-column {
+      position: relative;
+      top: -11px;
+      .time-slot {
+        height: 23px; // consider border
+      }
+    }
+    .coach-column {
+      > div {
+        padding: 0 !important;
+      }
+    }
+    .time-slot {
+      height: 22px;
+    }
+    .schedule-slot,
+    .schedule-slot-x,
+    .schedule-slot-start,
+    .schedule-slot-end {
+      border-top: #dcdcdc solid 1px;
+      &.dot {
+        border-top: #999 dotted 1px;
+      }
+      &.none {
+        border-top-color: white;
+      }
+    }
+    
+    .schedule-slot-x,
+    .schedule-slot-start,
+    .schedule-slot-end {
+      background: rgb(224, 247, 217);
+      color: rgb(54, 98, 44);
+      border-left: 4px solid rgb(54, 98, 44);
+    }
+
+    .schedule-slot-x,
+    .schedule-slot-end {
+      border-top:none !important;
+      height: 23px;
+    }
+
+    .schedule-slot-start {
+      border-top-left-radius: 4px;
+    }
+    .schedule-slot-end {
+      border-bottom-left-radius: 4px;
+    }
+  }
+}
