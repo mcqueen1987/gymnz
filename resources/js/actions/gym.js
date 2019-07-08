@@ -101,6 +101,18 @@ export function createSchedule(gymId, data) {
     };
 }
 
+export function LoadCustomerSchedule(gymId, params) {
+    return {
+        type: ActionTypes.LOAD_CUSTOMER_SCHEDULE,
+        payload: {
+            request: {
+                url: '/gym/' + gymId + '/schedule',
+                params
+            }
+        }
+    };
+}
+
 /********CUSTOMER DETAIL*********/
 export function loadCustomerBalance(userId, params) {
     return {
@@ -113,6 +125,7 @@ export function loadCustomerBalance(userId, params) {
         }
     };
 }
+
 export function loadCustomerOrders(userId, params) {
     return {
         type: ActionTypes.LOAD_CUSTOMER_ORDERS,

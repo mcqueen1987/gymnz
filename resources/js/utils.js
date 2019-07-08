@@ -1,3 +1,5 @@
+export const TimeStrMap = getTimeStrMap();
+
 export function getTimeStrMap(){
     let minMap = ['00', '15', '30', '45'];
     let timeStrMap = [];
@@ -9,4 +11,8 @@ export function getTimeStrMap(){
         timeStrMap.push(hour + ':' + minMap[i % 4]);
     }
     return timeStrMap;
-}
+};
+
+export function getTimeStr(i){
+    return TimeStrMap[i];
+};
