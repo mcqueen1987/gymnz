@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import ChartistGraph from "react-chartist";
 // @material-ui/core
 import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from '@material-ui/core/Paper';
 import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 import Store from "@material-ui/icons/Store";
@@ -32,12 +33,19 @@ import CardHeader from "-components/Card/CardHeader.jsx";
 import CardIcon from "-components/Card/CardIcon.jsx";
 import CardBody from "-components/Card/CardBody.jsx";
 import CardFooter from "-components/Card/CardFooter.jsx";
+import Badge from "@material-ui/core/Badge";
+
 
 import { bugs, website, server } from "-variables/general.jsx";
 import Button from "-components/CustomButtons/Button.jsx";
 import Add from "@material-ui/icons/Add"
+import * as utils from '-utils';
+import * as config from '-config';
 
 import CreateNewDialogue from '-components/CustomDialogues/CreateNewDialogue';
+import classnames from 'classnames';
+
+import "../../../sass/gymdayview.scss"
 
 import {
   dailySalesChart,
@@ -46,6 +54,8 @@ import {
 } from "-variables/charts.jsx";
 
 import dashboardStyle from "-assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
+import { List, ListItem } from "@material-ui/core";
+import dayjs from 'dayjs';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -54,6 +64,9 @@ class Dashboard extends React.Component {
 
   componentWillMount() {
     this.props.actions.loadCoach(this.props.selectedGym.id)
+    this.props.actions.LoadGymSchedule(this.props.selectedGym.id, {
+      date: dayjs().format('YYYY-MM-DD')
+    });
   }
 
   componentWillUnmount() {
@@ -112,11 +125,81 @@ class Dashboard extends React.Component {
       }]
     };
     return <CreateNewDialogue {...fields} />
+  };
+  getTimeAxisColumn = () => {
+    return (<GridItem xs={1} sm={1} md={1} classes={{ grid: 'time-column' }}>
+      <List>
+        {utils.getTimeRange(config.startTime, config.endTime - 1).map(t => <ListItem className='time-slot' key={t}>{t[4] === '5' ? ' ' : t}</ListItem>)}
+      </List>
+    </GridItem>);
   }
+  getCoachDayColumn = (c) => {
+    let schedules = this.props.gym.schedules.filter(s => s.coach.id === c.id);
+    let sealed = {};
+    let desc = {};
+    schedules.forEach(s => {
+      utils.range(s.start, s.end).forEach(i => {
+        sealed[i] = '-x';
+      })
+      sealed[s.start] = '-start';
+      desc[s.start] = s.customer.name;
+      // sealed[s.start + 1] = '-start';
+      sealed[s.end] = '-end';
+      // sealed[s.end - 1] = '-end';
+    });
+    return (
+      <GridItem item xs>
+        <List>
+          {utils.range(config.startTime, config.endTime).map(t => {
+            let borderCls = 'none';
+            let timeStr = utils.getTimeStr(t);
+            if (timeStr.split(':')[1] === '00') {
+              borderCls = 'solid';
+            }
+            if (timeStr.split(':')[1] === '30') {
+              borderCls = 'dot';
+            }
+            let scheduleSlotCls = sealed[t] ? 'schedule-slot' + sealed[t] : 'schedule-slot';
+            return <ListItem key={t} className={classnames('time-slot', borderCls, scheduleSlotCls)}>{desc[t]}</ListItem>
+          })}
+        </List>
+      </GridItem>);
+  };
+
+  getGymDayOverView = () => {
+    return (<Paper elevation={12} className="gym-day-view-container">
+      <Paper square elevation={0} className="gym-day-view-header">
+        <GridContainer alignItems='center'>
+          <GridItem xs={1} sm={1} md={1}></GridItem>
+          <GridItem container spacing={0} xs={11} sm={11} md={11} classes={{ grid: 'coach-column' }}>
+            {this.props.gym.coaches.map(c => {
+              return <GridItem item xs>
+                <Badge className="coach-name"
+                  color="secondary"
+                  badgeContent={this.props.gym.schedules.filter(s => s.coach.id === c.id).length}>
+                  {c.user.name}
+                </Badge>
+              </GridItem>
+            })}
+          </GridItem>
+        </GridContainer>
+      </Paper>
+
+      <Paper square elevation={0} className='gym-day-view-body-container'>
+        <GridContainer>
+          {this.getTimeAxisColumn()}
+          <GridItem container spacing={0} xs={11} sm={11} md={11} classes={{ grid: 'coach-column' }}>
+            {this.props.gym.coaches.map(c => this.getCoachDayColumn(c))}
+          </GridItem>
+        </GridContainer>
+      </Paper>
+    </Paper>);
+  };
 
   render() {
     const { classes } = this.props;
     return this.props.gym.showNewOrder ? this.newOrderDialog() : (<div>
+      {this.getGymDayOverView()}
       <GridContainer>
         <GridItem xs={12} sm={6} md={3}>
           <Card>

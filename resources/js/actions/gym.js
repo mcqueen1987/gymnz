@@ -114,6 +114,18 @@ export function createSchedule(gymId, data) {
     };
 }
 
+export function LoadGymSchedule(gymId, params) {
+    return {
+        type: ActionTypes.LOAD_GYM_SCHEDULE,
+        payload: {
+            request: {
+                url: '/gym/' + gymId + '/schedule',
+                params
+            }
+        }
+    };
+}
+
 export function LoadCustomerSchedule(gymId, params) {
     return {
         type: ActionTypes.LOAD_CUSTOMER_SCHEDULE,

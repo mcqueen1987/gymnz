@@ -16,3 +16,19 @@ export function getTimeStrMap(){
 export function getTimeStr(i){
     return TimeStrMap[i];
 };
+
+export function getTimeRange(start, end, step = 1){
+    let ret = [];
+    for(let i = start; i<end; i += step ) {
+        ret.push(TimeStrMap[i]);
+    }
+    return ret;
+}
+
+export function range(start, end, step = 1){
+    let ret = [];
+    for(let i = start; i<end; i += step ) {
+        ret.push(i);
+    }
+    return ret;
+}

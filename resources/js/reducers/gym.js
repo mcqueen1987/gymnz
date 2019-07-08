@@ -3,6 +3,7 @@ import * as ActionTypes from '../actions/actionTypes';
 const initState = {
     // data
     coaches: [],
+    schedules: [],
     customers: [],
     customerPage: {
         customerBalance: { total: 0, booked: 0 },
@@ -212,8 +213,20 @@ const gym = (state = initState, action = NonAction) => {
             }
         case ActionTypes.LOAD_CUSTOMER_SCHEDULE_FAIL:
             return Object.assign({}, state, {
-                errorMsg: 'Load customer schedule failed',
+                errorMsg: 'Load gym schedule failed',
+            });
+
+        case ActionTypes.LOAD_GYM_SCHEDULE:
+            return Object.assign({}, state, { loading: true });
+        case ActionTypes.LOAD_GYM_SCHEDULE_SUCCESS:
+            return Object.assign({}, state, { loading: false, schedules: action.payload.data });
+        case ActionTypes.LOAD_GYM_SCHEDULE_FAIL:
+            return Object.assign({}, state, {
+                loading: false,
+                errorMsg: 'Load gym schedule failed',
             });;
+
+
         default:
             return state;
     }

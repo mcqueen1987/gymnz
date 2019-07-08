@@ -33,7 +33,7 @@ class TimeSheet extends React.Component {
             key={index}
             classes={{ grid }}
             onClick={() => { this.props.onSelect(index) }}>
-            {utils.getTimeStr(index)}
+        {utils.getTimeStr(index)}
         </GridItem>;
     };
 
