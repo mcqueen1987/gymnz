@@ -50,6 +50,19 @@ export function createCoach(gymId, data) {
     }
 }
 
+/********DELETE COACH*********/
+export function deleteCoach($gymId, $coachId) {
+    return {
+        type: ActionTypes.DELETE_COACH,
+        payload: {
+            request:{
+                method: 'DELETE',
+                url:'/gym/' + $gymId + '/coach/' +  $coachId ,
+            }
+        }
+    }
+}
+
 /********LOAD CUSTOMER*********/
 export function loadCustomer(gymId) {
     return {

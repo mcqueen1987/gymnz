@@ -66,6 +66,22 @@ const gym = (state = initState, action = NonAction) => {
                 loading: false
             });
 
+        case ActionTypes.DELETE_COACH:
+            return Object.assign({}, state, {loading: true});
+        case ActionTypes.DELETE_COACH_SUCCESS:
+            return Object.assign({}, state, {
+                loading: false,
+                successMsg: 'Coach Deleted',
+                coaches: state.coaches.filter(function (el) {
+                    return el.id !== action.payload.data.id;
+                })
+            });
+        case ActionTypes.DELETE_COACH_FAIL:
+            return Object.assign({}, state, {
+                errorMsg: 'Delete coach failed, please try again',
+                loading: false
+            });
+
         case ActionTypes.CREATE_COACH:
             return Object.assign({}, state, { loading: true });
         case ActionTypes.CREATE_COACH_SUCCESS:

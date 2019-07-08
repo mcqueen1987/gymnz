@@ -26,7 +26,7 @@ class AddUserSex extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->drop_column('sex');
+            $table->dropColumn('sex');
         });
     }
 }

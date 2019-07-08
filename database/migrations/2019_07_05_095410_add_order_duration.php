@@ -27,8 +27,8 @@ class AddOrderDuration extends Migration
     public function down()
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->drop_column('duration');
-            $table->drop_column('expiry');
+            $table->dropColumn('duration');
+            $table->dropColumn('expiry');
         });
     }
 }
