@@ -270,6 +270,42 @@ const buttonStyle = {
       boxShadow: "none"
     }
   },
+  transparentPrimary: {
+    color: primaryColor[0],
+    boxShadow: 'none',
+    "&": {
+      background: "transparent",
+    },
+    "&:focus,&:hover": {
+      color: primaryColor[0],
+      boxShadow: 'none',
+      background: 'rgba(' + hexToRgb(primaryColor[0]) + ', 0.1)',
+    }
+  },
+  transparentDanger: {
+    color: dangerColor[0],
+    boxShadow: 'none',
+    "&": {
+      background: "transparent",
+    },
+    "&:focus,&:hover": {
+      color: dangerColor[0],
+      boxShadow: 'none',
+      background: 'rgba(' + hexToRgb(dangerColor[0]) + ', 0.1)',
+    }
+  },
+  transparentGray: {
+    color: grayColor[0],
+    boxShadow: 'none',
+    "&": {
+      background: "transparent",
+    },
+    "&:focus,&:hover": {
+      color: grayColor[0],
+      boxShadow: 'none',
+      background: 'rgba(' + hexToRgb(grayColor[0]) + ', 0.3)',
+    }
+  },
   disabled: {
     opacity: "0.65",
     pointerEvents: "none"

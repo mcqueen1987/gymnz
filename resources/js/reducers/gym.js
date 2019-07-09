@@ -68,7 +68,7 @@ const gym = (state = initState, action = NonAction) => {
             });
 
         case ActionTypes.DELETE_COACH:
-            return Object.assign({}, state, {loading: true});
+            return Object.assign({}, state, { loading: true });
         case ActionTypes.DELETE_COACH_SUCCESS:
             return Object.assign({}, state, {
                 loading: false,
@@ -171,6 +171,33 @@ const gym = (state = initState, action = NonAction) => {
                 customerPage.pendingSchedule = action.data;
                 return Object.assign({}, state, { customerPage });
             }
+
+        case ActionTypes.DELETE_SCHEDULE:
+            return Object.assign({}, state, { loading: true });
+        case ActionTypes.DELETE_SCHEDULE_SUCCESS:
+            {
+                let customerPage = { ...state.customerPage };
+                let { id } = action.payload.data;
+
+                customerPage.schedules.booked = customerPage.schedules.booked.filter(s => s.id !== id );
+                customerPage.schedules.finished = customerPage.schedules.booked.filter(s => s.id !== id );
+
+                // update unfinished
+                customerPage.customerBalance.booked = customerPage.schedules.booked.length;
+
+                return Object.assign({}, state, {
+                    customerPage,
+                    successMsg: 'Schedule has been canceled',
+                    loading: false
+                });
+            }
+            return {};
+        case ActionTypes.CREATE_SCHEDULE_FAIL:
+            return Object.assign({}, state, {
+                loading: false,
+                errorMsg: 'Delete schedule failed',
+            });
+
         case ActionTypes.CREATE_SCHEDULE:
             return Object.assign({}, state, { loading: true });
         case ActionTypes.CREATE_SCHEDULE_SUCCESS:

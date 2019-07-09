@@ -112,6 +112,17 @@ export function createSchedule(gymId, data) {
         }
     };
 }
+export function deleteSchedule(gymId, scheduleId) {
+    return {
+        type: ActionTypes.DELETE_SCHEDULE,
+        payload: {
+            request: {
+                method: 'delete',
+                url: '/gym/' + gymId + '/schedule/' + scheduleId,
+            }
+        }
+    };
+}
 
 export function LoadGymSchedule(gymId, params) {
     return {

@@ -126,7 +126,7 @@ class CoachController extends Controller
      */
     public function destroy($gymId, $coachId)
     {
-        $coachItem = Coach::find($coachId);
+        $coachItem = Coach::where(['id' => $coachId, 'gym_id' => $gymId, 'status'=> 1])->first();
         if (empty($coachItem)) {
             return response()->json(array('message' => 'can not find coach_id ' . $coachId), 500);
         }
