@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
 import Button from "-components/CustomButtons/Button.jsx";
-import ButtonDelete from "-components/CustomButtons/ButtonDelete.jsx";
 import Add from "@material-ui/icons/Add"
 // core components
 import GridItem from "-components/Grid/GridItem.jsx";
@@ -21,11 +20,15 @@ import "../../../sass/coach.scss"
 import CardBody from "-components/Card/CardBody";
 import classNames from "classnames"
 import CreateNewDialogue from "-components/CustomDialogues/CreateNewDialogue";
+import Confirmation from "-components/CustomDialogues/Confirmation";
 
 class Coach extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            showDeleteConfirmation: false,
+            deletingCoach: null,
+        };
     }
 
     componentWillMount() {
@@ -38,33 +41,53 @@ class Coach extends React.Component {
         this.props.actions.showNewCoach();
     };
 
-    shouldComponentUpdate(nextProps) {
+    showDeleteCoachConfirmation = (deletingCoach) => () => {
+        this.setState({ showDeleteConfirmation: true, deletingCoach });
+    };
+
+    hideDeleteCoachConfirmation = () => {
+        this.setState({ showDeleteConfirmation: false });
+    };
+
+    deleteCoach = () => {
+        this.setState({ showDeleteConfirmation: false });
+        this.props.actions.deleteCoach(this.props.selectedGym.id, this.state.deletingCoach.id);
+    };
+
+    shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.selectedGym.id && nextProps.selectedGym.id !== this.props.selectedGym.id) {
             this.props.actions.loadCoach(nextProps.selectedGym.id);
             return true
         }
-        return nextProps.gym !== this.props.gym;
+        return nextProps.gym !== this.props.gym || this.state.showDeleteConfirmation !== nextState.showDeleteCoachConfirmation;
     }
+
     render() {
+        const deleteCoachParams = {
+            message: this.state.deletingCoach && 'Do you want to remove ' + this.state.deletingCoach.user.name + '?',
+            onCancel: this.hideDeleteCoachConfirmation,
+            onConfirm: this.deleteCoach
+        };
         const coachFields = [{
-                name: 'name',
-                placeholder: 'Name'
-            }, {
-                name: 'sex',
-                label: 'Sex',
-                options: [{ value: 0, label: 'Female' }, { value: 1, label: 'Male' }],
-            }, {
-                name: 'phone',
-                type: 'phone',
-                placeholder: 'phone'
-            }, {
-                name: 'password',
-                type: 'password',
-                placeholder: 'Password'
-            }];
+            name: 'name',
+            placeholder: 'Name'
+        }, {
+            name: 'sex',
+            label: 'Sex',
+            options: [{ value: 0, label: 'Female' }, { value: 1, label: 'Male' }],
+        }, {
+            name: 'phone',
+            type: 'phone',
+            placeholder: 'phone'
+        }, {
+            name: 'password',
+            type: 'password',
+            placeholder: 'Password'
+        }];
 
         return (
             <React.Fragment>
+                {this.state.showDeleteConfirmation && <Confirmation {...deleteCoachParams} />}
                 <div className={classNames({ 'loading': this.props.gym.loading })}>
                     {!this.props.gym.showNewCoach &&
                         <GridContainer>
@@ -83,17 +106,10 @@ class Coach extends React.Component {
                                                 </CardBody>
                                                 <CardFooter stats style={{ marginTop: 0 }}>
                                                     <div>
-                                                        {item.user.sex ? 'Male' : 'Female' }
+                                                        {item.user.sex ? 'Male' : 'Female'}
                                                     </div>
                                                     <div>
-                                                        <ButtonDelete
-                                                            color="white" size='sm'
-                                                            onSave={() => {
-                                                                this.props.actions.deleteCoach(this.props.selectedGym.id, item.id);
-                                                            }}
-                                                            title="Delete Coach"
-                                                        >  Delete
-                                                        </ButtonDelete>
+                                                        <Button onClick={this.showDeleteCoachConfirmation(item)}>Delete</Button>
                                                     </div>
                                                 </CardFooter>
                                             </Card>
@@ -117,7 +133,6 @@ class Coach extends React.Component {
                         />
                     }
                 </div>
-
             </React.Fragment>
         );
     }

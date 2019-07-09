@@ -25,7 +25,7 @@ export function cancelNewOrder() {
     }
 }
 
-/********LOAD COACH*********/
+/********COACH*********/
 export function loadCoach(gymId) {
     return {
         type: ActionTypes.LOAD_COACH,
@@ -50,7 +50,6 @@ export function createCoach(gymId, data) {
     }
 }
 
-/********DELETE COACH*********/
 export function deleteCoach($gymId, $coachId) {
     return {
         type: ActionTypes.DELETE_COACH,
