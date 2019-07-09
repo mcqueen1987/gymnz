@@ -41,11 +41,17 @@ import Button from "-components/CustomButtons/Button.jsx";
 import Add from "@material-ui/icons/Add"
 import * as utils from '-utils';
 import * as config from '-config';
+import dayjs from 'dayjs'
+import {
+  DatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
 
 import CreateNewDialogue from '-components/CustomDialogues/CreateNewDialogue';
 import classnames from 'classnames';
 
 import "../../../sass/gymdayview.scss"
+import 'dayjs/locale/zh-cn';
 
 import {
   dailySalesChart,
@@ -55,17 +61,28 @@ import {
 
 import dashboardStyle from "-assets/jss/material-dashboard-react/views/dashboardStyle.jsx";
 import { List, ListItem } from "@material-ui/core";
-import dayjs from 'dayjs';
+import DayjsUtils from "@date-io/dayjs";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      selectedDate: new Date()
+    }
+  }
+
+  handleDateChange = (selectedDate) => {
+    this.setState({selectedDate}, () => {
+      this.props.actions.LoadGymSchedule(this.props.selectedGym.id, {
+        date: dayjs(selectedDate).format('YYYY-MM-DD')
+      })
+    });
   }
 
   componentWillMount() {
     this.props.actions.loadCoach(this.props.selectedGym.id)
     this.props.actions.LoadGymSchedule(this.props.selectedGym.id, {
-      date: dayjs().format('YYYY-MM-DD')
+      date: dayjs(this.state.selectedDate).format('YYYY-MM-DD')
     });
   }
 
@@ -148,7 +165,7 @@ class Dashboard extends React.Component {
       // sealed[s.end - 1] = '-end';
     });
     return (
-      <GridItem item xs>
+      <GridItem item xs key={c.id}>
         <List>
           {utils.range(config.startTime, config.endTime).map(t => {
             let borderCls = 'none';
@@ -170,10 +187,14 @@ class Dashboard extends React.Component {
     return (<Paper elevation={12} className="gym-day-view-container">
       <Paper square elevation={0} className="gym-day-view-header">
         <GridContainer alignItems='center'>
-          <GridItem xs={1} sm={1} md={1}></GridItem>
+          <GridItem xs={12} sm={12} md={1} container alignItems={'center'}>
+            <MuiPickersUtilsProvider utils={DayjsUtils}  locale={'zh-cn'}>
+              <DatePicker className='gymd-day-picker' format="MM/DD" value={this.state.selectedDate} onChange={this.handleDateChange} />
+            </MuiPickersUtilsProvider>
+          </GridItem>
           <GridItem container spacing={0} xs={11} sm={11} md={11} classes={{ grid: 'coach-column' }}>
             {this.props.gym.coaches.map(c => {
-              return <GridItem item xs>
+              return <GridItem item xs key={c.id}>
                 <Badge className="coach-name"
                   color="secondary"
                   badgeContent={this.props.gym.schedules.filter(s => s.coach.id === c.id).length}>

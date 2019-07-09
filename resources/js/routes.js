@@ -33,7 +33,7 @@ const dashboardRoutes = [
         name: "Dashboard",
         rtlName: "لوحة القيادة",
         icon: Dashboard,
-        component: LinkedDashboard,
+        component: () => <LinkedDashboard/>,
         layout: "/admin"
     },
     {
@@ -49,7 +49,7 @@ const dashboardRoutes = [
         name: "Coach",
         rtlName: "教练管理页",
         icon: CoachIcon,
-        component: LinkedCoach,
+        component:  () => <LinkedCoach/>,
         layout: "/admin"
     },
     {
@@ -57,7 +57,7 @@ const dashboardRoutes = [
         name: "Organization",
         rtlName: "分公司",
         icon: OrganizationIcon,
-        component: Organization,
+        component: () => <Organization/>,
         layout: "/admin"
     },
     {

@@ -12,7 +12,6 @@ import ReactDOM from "react-dom";
 import {Provider} from 'react-redux'
 import rootReducer from './reducers'
 import LinkedAdmin from "./layouts/Admin.jsx";
-import RTL from "./layouts/RTL.jsx";
 import "./assets/css/material-dashboard-react.css?v=1.6.0";
 import {createStore, applyMiddleware} from 'redux';
 import axios from 'axios';
@@ -33,8 +32,8 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={hist}>
             <Switch>
-                <Route path="/admin" component={LinkedAdmin}/>
-                <Route path="/rtl" component={RTL}/>
+                <Route path="/admin" component={ (props) => <LinkedAdmin {...props} />}/>
+                {/* <Route path="/rtl" component={RTL}/> */}
                 <Redirect from="/" to="/admin/dashboard"/>
             </Switch>
         </Router>

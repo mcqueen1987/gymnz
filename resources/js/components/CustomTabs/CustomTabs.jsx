@@ -64,8 +64,6 @@ class CustomTabs extends React.Component {
                 <Tab
                   classes={{
                     root: classes.tabRootButton,
-                    labelContainer: classes.tabLabelContainer,
-                    label: classes.tabLabel,
                     selected: classes.tabSelected,
                     wrapper: classes.tabWrapper
                   }}
