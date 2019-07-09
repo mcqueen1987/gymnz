@@ -33,7 +33,11 @@ class Customer extends React.Component {
     cancelSchedule = () => {
         this.props.actions.deleteSchedule(this.props.selectedGym.id, this.state.cancelSchedule.id);
         this.setState({ cancelSchedule: null });
-    }
+    };
+
+    completeSchedule = (schedule) => {
+        this.props.actions.completeSchedule(schedule.gym_id, schedule.id);
+    };
 
     getBookTab = () => {
         return <Scheduling {...this.props} customerId={this.customerId} />
@@ -60,12 +64,13 @@ class Customer extends React.Component {
             return <p>No unfinished schedule</p>;
         }
         let header = ['Date', 'Time', 'Coach', 'Action'];
-        let cancelBtn = (s) => <Button size='sm' color='transparentDanger' onClick={() => this.showCancelConfirmation(s)}>Cancel</Button>;
+        let cancelBtn = (s) => <Button size='sm' color='transparentGray' onClick={() => this.showCancelConfirmation(s)}>Cancel</Button>;
+        let completeBtn = (s) => <Button size='sm' color='transparentPrimary' onClick={() => this.completeSchedule(s)}>Complete</Button>;
         let tableData = booked.map(r => [
             r.date,
             utils.getTimeStr(r.start),
             r.coach.user.name,
-            cancelBtn(r)
+            <React.Fragment>{completeBtn(r)} {cancelBtn(r)}</React.Fragment>
         ]);
 
         return <Table classes={{ tableResponsive: 'no-margin-top' }}

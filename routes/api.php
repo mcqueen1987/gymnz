@@ -41,5 +41,7 @@ Route::group([
     Route::resource('gym', 'GymController');
     Route::resource('gym.coach', 'CoachController');
     Route::resource('gym.order', 'OrderController');
+
     Route::resource('gym.schedule', 'ScheduleController');
+    Route::get('gym/{gym}/schedule/{schedule}/complete', 'ScheduleController@complete');
 });

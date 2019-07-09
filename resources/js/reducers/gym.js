@@ -179,8 +179,8 @@ const gym = (state = initState, action = NonAction) => {
                 let customerPage = { ...state.customerPage };
                 let { id } = action.payload.data;
 
-                customerPage.schedules.booked = customerPage.schedules.booked.filter(s => s.id !== id );
-                customerPage.schedules.finished = customerPage.schedules.booked.filter(s => s.id !== id );
+                customerPage.schedules.booked = customerPage.schedules.booked.filter(s => s.id !== id);
+                customerPage.schedules.finished = customerPage.schedules.finished.filter(s => s.id !== id);
 
                 // update unfinished
                 customerPage.customerBalance.booked = customerPage.schedules.booked.length;
@@ -191,11 +191,35 @@ const gym = (state = initState, action = NonAction) => {
                     loading: false
                 });
             }
-            return {};
-        case ActionTypes.CREATE_SCHEDULE_FAIL:
+        case ActionTypes.DELETE_SCHEDULE_FAIL:
             return Object.assign({}, state, {
                 loading: false,
                 errorMsg: 'Delete schedule failed',
+            });
+
+        case ActionTypes.COMPLETE_SCHEDULE:
+            return Object.assign({}, state, { loading: true });
+        case ActionTypes.COMPLETE_SCHEDULE_SUCCESS:
+            {
+                let customerPage = { ...state.customerPage };
+                let completed = action.payload.data;
+
+                customerPage.schedules.booked = customerPage.schedules.booked.filter(s => s.id !== completed.id);
+                customerPage.schedules.finished.push(completed);
+
+                // update unfinished
+                customerPage.customerBalance.booked = customerPage.schedules.booked.length;
+
+                return Object.assign({}, state, {
+                    customerPage,
+                    successMsg: 'The schedule is completed',
+                    loading: false
+                });
+            }
+        case ActionTypes.COMPLETE_SCHEDULE_FAIL:
+            return Object.assign({}, state, {
+                loading: false,
+                errorMsg: 'Complete schedule failed',
             });
 
         case ActionTypes.CREATE_SCHEDULE:

@@ -273,6 +273,7 @@ const buttonStyle = {
   transparentPrimary: {
     color: primaryColor[0],
     boxShadow: 'none',
+    fontWeight: 600,
     "&": {
       background: "transparent",
     },
@@ -285,6 +286,7 @@ const buttonStyle = {
   transparentDanger: {
     color: dangerColor[0],
     boxShadow: 'none',
+    fontWeight: 600,
     "&": {
       background: "transparent",
     },
@@ -297,6 +299,7 @@ const buttonStyle = {
   transparentGray: {
     color: grayColor[0],
     boxShadow: 'none',
+    fontWeight: 600,
     "&": {
       background: "transparent",
     },
