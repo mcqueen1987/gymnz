@@ -146,4 +146,19 @@ class ScheduleController extends Controller
         }
         return response()->json(array('message' => 'fail'), 500);
     }
+
+
+    public function complete($gymId, $id)
+    {
+        $schedule = Schedule::where(['id' => $id, 'gym_id' => $gymId])->first();
+        if (empty($schedule)) {
+            return response()->json(array('message' => 'can not find the schedule ' . $id), 500);
+        }
+        $schedule->status = 2;
+        $success = $schedule->save();
+        if ($success) {
+            return response()->json($schedule, 200);
+        }
+        return response()->json(array('message' => 'fail'), 500);
+    }
 }
