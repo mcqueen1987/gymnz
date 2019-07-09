@@ -9,13 +9,30 @@ import Table from "-components/Table/Table.jsx";
 import Scheduling from "./Scheduling";
 import Badge from "@material-ui/core/Badge";
 import * as utils from '-utils';
-
 import 'dayjs/locale/zh-cn'
+import Button from "-components/CustomButtons/Button.jsx";
+import Confirmation from "-components/CustomDialogues/Confirmation";
 
 class Customer extends React.Component {
     constructor(props) {
         super(props);
         this.customerId = parseInt(this.props.match.params.id);
+        this.state = {
+            cancelSchedule: null
+        }
+    }
+
+    showCancelConfirmation = (schedule) => {
+        this.setState({ cancelSchedule: schedule });
+    };
+
+    hideCancelConfirmation = () => {
+        this.setState({ cancelSchedule: null });
+    };
+
+    cancelSchedule = () => {
+        this.props.actions.deleteSchedule(this.props.selectedGym.id, this.state.cancelSchedule.id);
+        this.setState({ cancelSchedule: null });
     }
 
     getBookTab = () => {
@@ -42,8 +59,14 @@ class Customer extends React.Component {
         if (!booked) {
             return <p>No unfinished schedule</p>;
         }
-        let header = ['Date', 'Time', 'Coach'];
-        let tableData = booked.map(r => [r.date, utils.getTimeStr(r.start), r.coach.user.name]);
+        let header = ['Date', 'Time', 'Coach', 'Action'];
+        let cancelBtn = (s) => <Button size='sm' color='transparentDanger' onClick={() => this.showCancelConfirmation(s)}>Cancel</Button>;
+        let tableData = booked.map(r => [
+            r.date,
+            utils.getTimeStr(r.start),
+            r.coach.user.name,
+            cancelBtn(r)
+        ]);
 
         return <Table classes={{ tableResponsive: 'no-margin-top' }}
             tableHeaderColor='primary'
@@ -66,7 +89,7 @@ class Customer extends React.Component {
                 this.props.actions.loadAvailableSlotByDate(this.props.selectedGym.id, { date: this.state.date })
                 break;
             case 1:
-                this.props.actions.loadCustomerOrders(this.state.customerId, { gym: this.props.selectedGym.id });
+                this.props.actions.loadCustomerOrders(this.customerId, { gym: this.props.selectedGym.id });
                 break;
             default:
                 break;
@@ -74,26 +97,34 @@ class Customer extends React.Component {
     };
 
     render() {
-        let {booked, total} = this.props.gym.customerPage.customerBalance;
+        let { booked, total } = this.props.gym.customerPage.customerBalance;
         let unfinishedTabHeader = <Badge className="customer-tab-badge" color="secondary" badgeContent={this.props.gym.customerPage.schedules.booked.length}>Unfinished</Badge>;
-        return <Paper square>
-            <Tabs
-                title={booked + '/' + total}
-                headerColor="primary"
-                onSwitch={this.tapTab}
-                tabs={[{
-                    tabName: "Book",
-                    tabContent: this.getBookTab(),
-                }, {
-                    tabName: "Orders",
-                    tabContent: this.getOrdersTab(),
-                },  {
-                    tabName: unfinishedTabHeader,
-                    tabContent: this.getUnfinishedTab(),
-                }
-                ]}
-            />
-        </Paper>
+        let confirmationParams = {
+            message: 'Are you sure to cancel the schedule?',
+            onCancel: this.hideCancelConfirmation,
+            onConfirm: this.cancelSchedule
+        }
+        return (<React.Fragment>
+            {this.state.cancelSchedule && <Confirmation {...confirmationParams} />}
+            <Paper square>
+                <Tabs
+                    title={booked + '/' + total}
+                    headerColor="primary"
+                    onSwitch={this.tapTab}
+                    tabs={[{
+                        tabName: "Book",
+                        tabContent: this.getBookTab(),
+                    }, {
+                        tabName: "Orders",
+                        tabContent: this.getOrdersTab(),
+                    }, {
+                        tabName: unfinishedTabHeader,
+                        tabContent: this.getUnfinishedTab(),
+                    }
+                    ]}
+                />
+            </Paper>
+        </React.Fragment>);
     }
 }
 
