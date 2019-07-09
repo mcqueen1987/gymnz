@@ -1,4 +1,12 @@
 .gym-day-view-container {
+  .gymd-day-picker {
+    max-width: 50px;
+    text-align: center;
+    margin: auto;
+    input {
+      text-align: center;
+    }
+  }
   .coach-name {
     text-align: center;
     font-size: 18px;
@@ -15,6 +23,9 @@
   }
   .gym-day-view-header {
     padding-right: 10px;
+    > div {
+      margin: 0 !important;
+    }
     .coach-column {
       > div {
         padding: 0 !important;
@@ -32,7 +43,7 @@
       position: relative;
       top: -11px;
       .time-slot {
-        height: 23px; // consider border
+        height: 22px; // consider border
       }
     }
     .coach-column {
@@ -67,7 +78,6 @@
     .schedule-slot-x,
     .schedule-slot-end {
       border-top:none !important;
-      height: 23px;
     }
 
     .schedule-slot-start {
