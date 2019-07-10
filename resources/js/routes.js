@@ -1,15 +1,15 @@
 import React from 'react';
 // @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
-// import Person from "@material-ui/icons/Person";
-// import LibraryBooks from "@material-ui/icons/LibraryBooks";
+import CoachIcon from "@material-ui/icons/Person";
+import LibraryBooks from "@material-ui/icons/LibraryBooks";
 // import BubbleChart from "@material-ui/icons/BubbleChart";
 // import LocationOn from "@material-ui/icons/LocationOn";
 // import Notifications from "@material-ui/icons/Notifications";
 // import Unarchive from "@material-ui/icons/Unarchive";
 // import Language from "@material-ui/icons/Language";
-import OrganizationIcon from '@material-ui/icons/ThreeDRotation';
-import CoachIcon from '@material-ui/icons/SupervisorAccount';
+import OrganizationIcon from '@material-ui/icons/ViewModule';
+import CustomerIcon from '@material-ui/icons/SupervisorAccount';
 import SettingsIcon from '@material-ui/icons/Settings';
 
 // core components/views for Admin layout
@@ -37,11 +37,11 @@ const dashboardRoutes = [
         layout: "/admin"
     },
     {
-        path: "/setting",
-        name: "Setting",
-        rtlName: "健身房管理页",
-        icon: SettingsIcon,
-        component: ()=><GymSettings/>,
+        path: "/customers",
+        name: "Customer",
+        rtlName: "",
+        icon: CustomerIcon,
+        component: props => <Customers {...props}/>,
         layout: "/admin"
     },
     {
@@ -61,18 +61,19 @@ const dashboardRoutes = [
         layout: "/admin"
     },
     {
-        path: "/customers",
-        name: "Customer",
-        rtlName: "",
-        icon: OrganizationIcon,
-        component: props => <Customers {...props}/>,
+        path: "/setting",
+        name: "Setting",
+        rtlName: "健身房管理页",
+        icon: SettingsIcon,
+        component: ()=><GymSettings/>,
         layout: "/admin"
-    },{
+    },
+    {
         path: "/customer/:id",
         name: "CustomerPage",
         rtlName: "",
         hideMenu: true,
-        icon: OrganizationIcon,
+        icon: '',
         // props is to pass the url
         component: props => <Customer {...props}/>,
         layout: "/admin"
